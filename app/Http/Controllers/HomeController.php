@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $token = auth()->user()->createToken('api-token')->plainTextToken;
+        return view('home', compact('token'));
     }
 }
