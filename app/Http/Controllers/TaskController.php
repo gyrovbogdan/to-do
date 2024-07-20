@@ -32,7 +32,7 @@ class TaskController extends Controller
                 return abort(403, 'Unauthorized action.');
         }
 
-        return Task::create($request->toArray());
+        return Task::create($request->validated());
     }
 
     /**
@@ -52,7 +52,7 @@ class TaskController extends Controller
     {
         if (auth()->user()->id != $task['user_id'])
             return abort(403, 'Unauthorized action.');
-        return $task->update($request->toArray());
+        return $task->update($request->validated());
     }
 
     /**

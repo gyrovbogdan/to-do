@@ -23,7 +23,7 @@
                 <div id="tasks" class="my-4">
                 </div>
 
-                @vite('resources/js/utils/task.js')
+                @vite('resources/js/pages/home.js')
             </div>
         </div>
     </div>
