@@ -23,6 +23,25 @@ class Api {
         );
     }
 
+    create(data) {
+        return $.ajax(
+            this.withToken({
+                type: "POST",
+                url: this.url,
+                data: data,
+            })
+        );
+    }
+
+    delete(id) {
+        return $.ajax(
+            this.withToken({
+                type: "DELETE",
+                url: `${this.url}/${id}`,
+            })
+        );
+    }
+
     withToken(settings) {
         settings["headers"] = {
             Authorization: "Bearer " + this.token,

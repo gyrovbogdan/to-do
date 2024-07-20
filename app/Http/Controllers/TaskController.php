@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
-use Illuminate\Support\Arr;
 use App\Models\Task;
 
 class TaskController extends Controller
@@ -26,13 +25,13 @@ class TaskController extends Controller
         $user = auth()->user();
         $request['user_id'] = $user->id;
 
-        if ($request['parent_id'] != null)
-            $task = Task::findOrFail($request['parent_id']); {
+        if ($request['parent_id'] != null) {
+            $task = Task::findOrFail($request['parent_id']);
             if ($user->id != $task['user_id'])
                 return abort(403, 'Unauthorized action.');
         }
 
-        return Task::create($request->validated());
+        return Task::create($request->toArray());
     }
 
     /**
