@@ -20,8 +20,8 @@
                     <div hidden id="api-token" data-token="{{ $token }}"></div>
                 </div>
 
-                <div id="tasks" class="my-4">
-                </div>
+                <ul id="tasks" class="my-4">
+                </ul>
 
                 @vite('resources/js/pages/home.js')
             </div>

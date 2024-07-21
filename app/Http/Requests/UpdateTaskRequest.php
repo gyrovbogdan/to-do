@@ -24,7 +24,9 @@ class UpdateTaskRequest extends FormRequest
         return [
             'parent_id' => 'nullable|integer',
             'title' => 'string',
-            'description' => 'nullable|string'
+            'description' => 'nullable|string',
+            'collapsed' => 'boolean',
+            'done' => 'boolean'
         ];
     }
 }

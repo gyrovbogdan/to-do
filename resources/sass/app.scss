@@ -7,3 +7,12 @@
 // Bootstrap
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.css";
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.btn-collapse:not(.collapsed) {
+    transform: rotate(90deg);
+}

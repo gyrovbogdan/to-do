@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->foreignIdFor(User::class);
             $table->boolean('collapsed')->default(true);
-            $table->boolean('done')->default(true);
+            $table->boolean('done')->default(false);
             $table->timestamps();
         });
     }

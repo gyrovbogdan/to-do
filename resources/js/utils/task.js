@@ -4,6 +4,7 @@ import {
     createMenuEvents,
     createEvents,
     deleteEvents,
+    collapseEvents,
 } from "./events";
 
 class Tasks {
@@ -29,6 +30,7 @@ class Tasks {
         createMenuEvents(this);
         createEvents(this);
         deleteEvents(this);
+        collapseEvents(this);
     }
 }
 

@@ -105,7 +105,15 @@ export function deleteEvents(tasks) {
         const $task = $(this).closest(".task");
         const id = $task.find("input[name=id]").val();
         tasks.api.delete(id);
+        $task.closest("li").remove();
+    });
+}
 
-        $task.remove();
+export function collapseEvents(tasks) {
+    $(".btn-collapse").on("click", function () {
+        const $this = $(this);
+        const id = $this.closest(".task").find("input[name=id]").val();
+        const collapsed = $this.hasClass("collapsed");
+        tasks.api.update(id, { collapsed: Number(collapsed) });
     });
 }
