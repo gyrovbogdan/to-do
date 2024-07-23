@@ -10,10 +10,14 @@ class DisplayManager {
         for (const task of data) {
             DisplayManager.renderTask(task, this.$container);
         }
+        const $newTask = TaskTemplates.buttonNewTask({
+            id: "",
+        });
+        this.$container.append($newTask);
     }
 
     static renderTask(task, container) {
-        const $content = $("<li></li>");
+        const $content = $(`<li style="margin-left: 20px"></li>`);
         $content.append($(TaskTemplates.task(task)));
         const $chilrenList = $(
             `<ul class="collapse ${task["collapsed"] ? "" : "show"}"
@@ -39,13 +43,11 @@ class DisplayManager {
                 .find("input[name=description]")
                 .val()
                 .trim();
-            const depth = $taskForm.find("input[name=depth]").val().trim();
 
             const data = {
                 id: id,
                 title: title,
                 description: description,
-                depth: depth,
             };
             $taskForm.replaceWith(TaskTemplates.task(data));
         }
@@ -55,12 +57,10 @@ class DisplayManager {
         for (const taskForm of $(".create-task-form")) {
             const $task = $(taskForm);
 
-            const id = $task.find("input[name='parent_id']").val().trim();
-            const depth = $task.find("input[name=depth]").val().trim();
+            const parentId = $task.find("input[name='parent_id']").val().trim();
 
             const data = {
-                id: id,
-                depth: depth,
+                id: parentId,
             };
 
             $task.replaceWith(TaskTemplates.buttonNewTask(data));
@@ -71,13 +71,11 @@ class DisplayManager {
         const id = $task.find("input[name=id]").val().trim();
         const title = $task.find(".title").html().trim();
         const description = $task.find(".description").html().trim();
-        const depth = $task.find("input[name=depth]").val().trim();
 
         const data = {
             id: id,
             title: title,
             description: description,
-            depth: depth,
         };
 
         const updateForm = TaskTemplates.formUpdate(data);
@@ -94,7 +92,8 @@ class DisplayManager {
     }
 
     static renderSubList(task, $container) {
-        const $taskHtml = $(TaskTemplates.task(task));
+        const $taskHtml = $(`<li style="margin-left: 20px"></li>`);
+        $taskHtml.append($(TaskTemplates.task(task)));
         const $chilrenList = $(
             `<ul class="collapse ${task["collapsed"] ? "" : "show"}"
                 id="collapse-${task["id"]}"></ul>`
@@ -104,7 +103,6 @@ class DisplayManager {
         const ul = $container.parent();
         ul.append(
             TaskTemplates.buttonNewTask({
-                depth: task["depth"],
                 parentId: task["parent_id"],
             })
         );

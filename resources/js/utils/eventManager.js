@@ -7,27 +7,38 @@ class EventManager {
     }
 
     init() {
-        this.editFormListeners();
+        this.showEditFormListeners();
         this.collapseListeners();
         this.deleteListeners();
-        this.newSubListListeners();
+        this.openSubListCreateFormListeners();
     }
 
-    editFormListeners() {
+    showEditFormListeners() {
         const eventManager = this;
         $(".btn-update-menu")
             .off()
             .one("click", function () {
-                const $task = $(this).closest(".task");
+                const $this = $(this);
+                const $task = $this.closest(".task");
+                const buffer = $task;
                 DisplayManager.closeEditForms();
                 DisplayManager.closeCreateForms();
                 DisplayManager.renderUpdateForm($task);
-                eventManager.updateFormListeners();
+                eventManager.updateListeners();
+                eventManager.cancelChangesListeners(buffer);
                 eventManager.init();
             });
     }
 
-    updateFormListeners() {
+    cancelChangesListeners(buffer) {
+        const eventManager = this;
+        $(".btn-cancel").one("click", function () {
+            $(this).closest("form").replaceWith(buffer);
+            eventManager.init();
+        });
+    }
+
+    updateListeners() {
         const api = this.api;
         const eventManager = this;
         $("#form-update").on("submit", function (e) {
@@ -42,7 +53,7 @@ class EventManager {
                 });
                 const taskHtml = TaskTemplates.task(task);
                 $this.replaceWith(taskHtml);
-                eventManager.updateFormListeners();
+                eventManager.updateListeners();
             } catch (error) {
                 console.log(error);
             }
@@ -75,7 +86,7 @@ class EventManager {
             });
     }
 
-    newSubListListeners() {
+    openSubListCreateFormListeners() {
         const eventManager = this;
         $(".new-sub-item")
             .off()
@@ -85,18 +96,18 @@ class EventManager {
 
                 const $this = $(this);
                 const $task = $this.closest("li");
+                const buffer = $task.html();
                 const parentId = $task.find("input[name='parent_id']").val();
-                const depth = Number($task.find("input[name=depth").val());
 
-                const taskHtml = TaskTemplates.formCreate(depth, parentId);
+                const taskHtml = TaskTemplates.formCreate(parentId);
                 $this.replaceWith(taskHtml);
-
-                eventManager.createTaskListeners();
+                eventManager.cancelChangesListeners(buffer);
+                eventManager.createListeners();
                 eventManager.init();
             });
     }
 
-    createTaskListeners() {
+    createListeners() {
         const api = this.api;
         const eventManager = this;
 
@@ -104,13 +115,11 @@ class EventManager {
             e.preventDefault();
             const $this = $(this);
             const formData = DisplayManager.getFormData($this);
-            const { depth } = formData;
             const task = await api.create({
                 title: formData["title"],
                 description: formData["description"],
                 parent_id: formData["parent_id"],
             });
-            task["depth"] = Number(depth) - 1;
             DisplayManager.renderSubList(task, $this);
             eventManager.init();
         });
