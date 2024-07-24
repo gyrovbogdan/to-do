@@ -36,34 +36,20 @@ class DisplayManager {
     static closeEditForms() {
         for (const taskForm of $(".update-task-form")) {
             const $taskForm = $(taskForm);
-
-            const id = $taskForm.find("input[name=id]").val().trim();
-            const title = $taskForm.find("input[name=title]").val().trim();
-            const description = $taskForm
-                .find("input[name=description]")
-                .val()
-                .trim();
-
-            const data = {
-                id: id,
-                title: title,
-                description: description,
-            };
+            const data = DisplayManager.getFormData($taskForm);
             $taskForm.replaceWith(TaskTemplates.task(data));
         }
     }
 
     static closeCreateForms() {
         for (const taskForm of $(".create-task-form")) {
-            const $task = $(taskForm);
-
-            const parentId = $task.find("input[name='parent_id']").val().trim();
-
+            const $taskForm = $(taskForm);
+            const taskData = DisplayManager.getFormData($taskForm);
             const data = {
-                id: parentId,
+                id: taskData["parent_id"],
             };
 
-            $task.replaceWith(TaskTemplates.buttonNewTask(data));
+            $taskForm.replaceWith(TaskTemplates.buttonNewTask(data));
         }
     }
 
@@ -100,12 +86,9 @@ class DisplayManager {
         );
         $chilrenList.append(TaskTemplates.buttonNewTask(task));
         $taskHtml.append($chilrenList);
-        const ul = $container.parent();
-        ul.append(
-            TaskTemplates.buttonNewTask({
-                parentId: task["parent_id"],
-            })
-        );
+        const $ul = $container.parent();
+        task["id"] = task["parent_id"] == null ? "" : task["parent_id"];
+        $ul.append(TaskTemplates.buttonNewTask(task));
         $container.replaceWith($taskHtml);
     }
 }

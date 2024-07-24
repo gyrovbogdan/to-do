@@ -25,6 +25,7 @@ class TaskTemplates {
                 value="${task["title"]}"
                 pleceholder="Название задачи"
                 name="title"
+                required autofocus
             >
             </div>
 
@@ -60,6 +61,7 @@ class TaskTemplates {
                     class="text-light-emphasis form-control p-0" 
                     pleceholder="Название задачи"
                     name="title"
+                    required autofocus
                 >
                 </div>
 
