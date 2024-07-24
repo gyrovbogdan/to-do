@@ -50,38 +50,36 @@ class TaskTemplates {
 
     static formCreate(parentId) {
         return `
-    <li class="create-task-form" style="margin-left: 20px">
-        <form class="p-2 border-bottom d-flex justify-content-between"
+    <form class="p-2 border-bottom d-flex justify-content-between create-task-form"
             id="form-update"
         >
-            <input hidden name="parent_id" value="${parentId}" />
-            <div>
-                <div class="d-flex">
-                    <input 
-                    class="text-light-emphasis form-control p-0" 
-                    pleceholder="Название задачи"
-                    name="title"
-                    required autofocus
-                >
-                </div>
-
+        <input hidden name="parent_id" value="${parentId}" />
+        <div>
+            <div class="d-flex">
                 <input 
-                    class="text-light-emphasis form-control p-0 my-2" 
-                    pleceholder="Название задачи"
-                    name="description"
-                >
+                class="text-light-emphasis form-control p-0" 
+                pleceholder="Название задачи"
+                name="title"
+                required autofocus
+            >
             </div>
 
-            <div>
-                <button class="btn btn-cancel" type="button">
-                    <i class="bi bi-x-lg"></i>
-                </button>
-                <button class="btn" type="submit">
-                    <i class="bi bi-check-lg"></i>
-                </button>
-            </div>
-        </form>
-    </li>`;
+            <input 
+                class="text-light-emphasis form-control p-0 my-2" 
+                pleceholder="Название задачи"
+                name="description"
+            >
+        </div>
+
+        <div>
+            <button class="btn btn-cancel" type="button">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <button class="btn" type="submit">
+                <i class="bi bi-check-lg"></i>
+            </button>
+        </div>
+    </form>`;
     }
 
     static task(task) {
@@ -129,13 +127,13 @@ class TaskTemplates {
     </div>`;
     }
 
-    static buttonNewTask(task) {
+    static buttonNewTask(parentId) {
         return `
-    <li class="new-sub-item" style="margin-left: 20px">
+    <li>
         <div
-            class="p-2 border-bottom d-flex justify-content-between task"
+            class="p-2 border-bottom d-flex justify-content-between task new-sub-item"
         >
-            <input hidden name="parent_id" value="${task["id"]}" />
+            <input hidden name="parent_id" value="${parentId}" />
             <div>
                 <div class="d-flex text-secondary">
                     <i class="bi bi-plus-lg mx-2"></i>    
@@ -144,6 +142,11 @@ class TaskTemplates {
             </div>
         </div>
     </li>`;
+    }
+
+    static sublist(task) {
+        return `<ul class="sublist collapse ${task["collapsed"] ? "" : "show"}"
+            id="collapse-${task["id"]}"></ul>`;
     }
 }
 

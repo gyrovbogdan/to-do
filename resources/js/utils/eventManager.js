@@ -7,25 +7,27 @@ class EventManager {
     }
 
     init() {
-        this.showEditFormListeners();
+        this.openEditFormListeners();
         this.collapseListeners();
         this.deleteListeners();
-        this.openSubListCreateFormListeners();
+        this.openCreateFormListeners();
     }
 
-    showEditFormListeners() {
+    openEditFormListeners() {
         const eventManager = this;
         $(".btn-update-menu")
             .off()
             .one("click", function () {
-                const $this = $(this);
-                const $task = $this.closest(".task");
-                const buffer = $task;
+                const $task = $(this).closest(".task");
+                const $buffer = $task;
+
                 DisplayManager.closeEditForms();
                 DisplayManager.closeCreateForms();
+
                 DisplayManager.renderUpdateForm($task);
-                eventManager.updateListeners();
-                eventManager.cancelChangesListeners(buffer);
+                eventManager.cancelChangesListeners($buffer);
+                eventManager.submitUpdateListeners();
+
                 eventManager.init();
             });
     }
@@ -38,27 +40,25 @@ class EventManager {
         });
     }
 
-    updateListeners() {
+    submitUpdateListeners() {
         const api = this.api;
         const eventManager = this;
         $("#form-update").on("submit", function (e) {
             e.preventDefault();
             const $this = $(this);
-            const task = DisplayManager.getFormData($this);
+            const formData = DisplayManager.getFormData($this);
 
-            try {
-                api.update(task["id"], {
-                    title: task["title"],
-                    description: task["description"],
-                });
-                const taskHtml = TaskTemplates.task(task);
-                $this.replaceWith(taskHtml);
-                eventManager.updateListeners();
-            } catch (error) {
-                console.log(error);
-            }
-
-            eventManager.init();
+            api.update(formData["id"], {
+                title: formData["title"],
+                description: formData["description"],
+            })
+                .done(() => {
+                    const taskHtml = TaskTemplates.task(formData);
+                    $this.replaceWith(taskHtml);
+                    eventManager.submitUpdateListeners();
+                    eventManager.init();
+                })
+                .fail((error) => console.log(error));
         });
     }
 
@@ -68,7 +68,9 @@ class EventManager {
             .off()
             .on("click", function () {
                 const $this = $(this);
-                const id = $this.closest(".task").find("input[name=id]").val();
+                const { id } = DisplayManager.getFormData(
+                    $this.closest(".task")
+                );
                 const collapsed = $this.hasClass("collapsed");
                 api.update(id, { collapsed: Number(collapsed) });
             });
@@ -80,13 +82,14 @@ class EventManager {
             .off()
             .one("click", function () {
                 const $task = $(this).closest(".task");
-                const id = $task.find("input[name=id]").val();
-                api.delete(id);
-                $task.closest("li").remove();
+                const { id } = DisplayManager.getFormData($task);
+                api.delete(id).done(() => $task.closest("li").remove());
+                DisplayManager.closeCreateForms();
+                DisplayManager.closeEditForms();
             });
     }
 
-    openSubListCreateFormListeners() {
+    openCreateFormListeners() {
         const eventManager = this;
         $(".new-sub-item")
             .off()
@@ -97,31 +100,35 @@ class EventManager {
                 const $this = $(this);
                 const $task = $this.closest("li");
                 const buffer = $task.html();
-                const parentId = $task.find("input[name='parent_id']").val();
+                const formData = DisplayManager.getFormData($task);
 
-                const taskHtml = TaskTemplates.formCreate(parentId);
+                const taskHtml = TaskTemplates.formCreate(
+                    formData["parent_id"]
+                );
                 $this.replaceWith(taskHtml);
+
                 eventManager.cancelChangesListeners(buffer);
-                eventManager.createListeners();
+                eventManager.submitCreateListeners();
                 eventManager.init();
             });
     }
 
-    createListeners() {
+    submitCreateListeners() {
         const api = this.api;
         const eventManager = this;
 
         $(".create-task-form").on("submit", async function (e) {
             e.preventDefault();
+
             const $this = $(this);
+
             const formData = DisplayManager.getFormData($this);
-            const task = await api.create({
-                title: formData["title"],
-                description: formData["description"],
-                parent_id: formData["parent_id"],
+
+            api.create(formData).done((task) => {
+                const $taskContainer = $this.closest("li");
+                DisplayManager.renderSubList(task, $taskContainer);
+                eventManager.init();
             });
-            DisplayManager.renderSubList(task, $this);
-            eventManager.init();
         });
     }
 }

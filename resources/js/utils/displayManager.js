@@ -10,27 +10,24 @@ class DisplayManager {
         for (const task of data) {
             DisplayManager.renderTask(task, this.$container);
         }
-        const $newTask = TaskTemplates.buttonNewTask({
-            id: "",
-        });
+        const $newTask = TaskTemplates.buttonNewTask("");
         this.$container.append($newTask);
     }
 
-    static renderTask(task, container) {
-        const $content = $(`<li style="margin-left: 20px"></li>`);
+    static renderTask(task, $container) {
+        const $content = $(`<li></li>`);
         $content.append($(TaskTemplates.task(task)));
-        const $chilrenList = $(
-            `<ul class="collapse ${task["collapsed"] ? "" : "show"}"
-                id="collapse-${task["id"]}"></ul>`
-        );
+
+        const $chilrenList = $(TaskTemplates.sublist(task));
         if (task["children"].length) {
             for (const taskChildren of task["children"]) {
                 this.renderTask(taskChildren, $chilrenList);
             }
         }
-        $chilrenList.append(TaskTemplates.buttonNewTask(task));
+        $chilrenList.append(TaskTemplates.buttonNewTask(task["id"]));
+
         $content.append($chilrenList);
-        container.append($content);
+        $container.append($content);
     }
 
     static closeEditForms() {
@@ -44,26 +41,15 @@ class DisplayManager {
     static closeCreateForms() {
         for (const taskForm of $(".create-task-form")) {
             const $taskForm = $(taskForm);
-            const taskData = DisplayManager.getFormData($taskForm);
-            const data = {
-                id: taskData["parent_id"],
-            };
-
-            $taskForm.replaceWith(TaskTemplates.buttonNewTask(data));
+            const formData = DisplayManager.getFormData($taskForm);
+            $taskForm.replaceWith(
+                TaskTemplates.buttonNewTask(formData["parent_id"])
+            );
         }
     }
 
     static renderUpdateForm($task) {
-        const id = $task.find("input[name=id]").val().trim();
-        const title = $task.find(".title").html().trim();
-        const description = $task.find(".description").html().trim();
-
-        const data = {
-            id: id,
-            title: title,
-            description: description,
-        };
-
+        const data = DisplayManager.getFormData($task);
         const updateForm = TaskTemplates.formUpdate(data);
         $task.replaceWith(updateForm);
     }
@@ -78,18 +64,20 @@ class DisplayManager {
     }
 
     static renderSubList(task, $container) {
-        const $taskHtml = $(`<li style="margin-left: 20px"></li>`);
+        const $taskHtml = $(`<li></li>`);
+
         $taskHtml.append($(TaskTemplates.task(task)));
-        const $chilrenList = $(
-            `<ul class="collapse ${task["collapsed"] ? "" : "show"}"
-                id="collapse-${task["id"]}"></ul>`
-        );
-        $chilrenList.append(TaskTemplates.buttonNewTask(task));
+
+        const $chilrenList = $(TaskTemplates.sublist(task));
         $taskHtml.append($chilrenList);
-        const $ul = $container.parent();
-        task["id"] = task["parent_id"] == null ? "" : task["parent_id"];
-        $ul.append(TaskTemplates.buttonNewTask(task));
-        $container.replaceWith($taskHtml);
+        $chilrenList.append(TaskTemplates.buttonNewTask(task["id"]));
+
+        const $sublist = $container.closest("ul");
+        $container.remove();
+        $sublist.append($taskHtml);
+
+        const parentId = task["parent_id"] == null ? "" : task["parent_id"];
+        $sublist.append(TaskTemplates.buttonNewTask(parentId));
     }
 }
 

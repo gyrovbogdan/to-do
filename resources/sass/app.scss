@@ -13,6 +13,10 @@ ul {
     padding-left: 0;
 }
 
+ul.sublist {
+    margin-left: 25px;
+}
+
 .btn-collapse:not(.collapsed) {
     transform: rotate(90deg);
 }
