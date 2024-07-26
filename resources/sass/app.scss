@@ -8,8 +8,6 @@
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
-@import "jquery-ui/themes/base/all.css";
-
 ul {
     list-style-type: none;
     padding-left: 0;
@@ -21,4 +19,8 @@ ul.sublist {
 
 .btn-collapse:not(.collapsed) {
     transform: rotate(90deg);
+}
+
+input[type="checkbox"] {
+    border-radius: 2rem !important;
 }
