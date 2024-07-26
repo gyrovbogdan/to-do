@@ -5,10 +5,11 @@ class appController {
         this.api = api;
     }
 
-    async init() {
-        const data = await this.api.index();
-        this.displayManager.index(data);
-        this.eventManager.init();
+    init() {
+        this.api.index().done((data) => {
+            this.displayManager.index(data);
+            this.eventManager.init();
+        });
     }
 }
 

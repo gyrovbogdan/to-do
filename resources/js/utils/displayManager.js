@@ -1,8 +1,9 @@
 import TaskTemplates from "./taskTemplates";
 
 class DisplayManager {
-    constructor($container) {
+    constructor($container, $doneContainer) {
         this.$container = $container;
+        this.$doneContainer = $doneContainer;
     }
 
     index(data) {
@@ -19,7 +20,7 @@ class DisplayManager {
         $content.append($(TaskTemplates.task(task)));
 
         const $chilrenList = $(TaskTemplates.sublist(task));
-        if (task["children"].length) {
+        if (task["children"]) {
             for (const taskChildren of task["children"]) {
                 this.renderTask(taskChildren, $chilrenList);
             }

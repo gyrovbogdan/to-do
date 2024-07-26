@@ -11,6 +11,7 @@ class EventManager {
         this.collapseListeners();
         this.deleteListeners();
         this.openCreateFormListeners();
+        this.doneListeners();
     }
 
     openEditFormListeners() {
@@ -129,6 +130,18 @@ class EventManager {
                 DisplayManager.renderSubList(task, $taskContainer);
                 eventManager.init();
             });
+        });
+    }
+
+    doneListeners() {
+        const api = this.api;
+        $(".checkbox-done").on("click", function () {
+            const $this = $(this);
+            const $task = $this.closest(".task");
+            const { id } = DisplayManager.getFormData($task);
+            const done = Number($this.is(":checked"));
+            api.update(id, { done: done });
+            if (done) $task.remove();
         });
     }
 }

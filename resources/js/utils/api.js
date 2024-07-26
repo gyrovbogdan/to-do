@@ -1,14 +1,15 @@
 class Api {
-    constructor(token, url) {
+    constructor(token, url, query = "") {
         this.token = token;
         this.url = url;
+        this.query = query;
     }
 
-    index() {
+    index(query = "") {
         return $.ajax(
             this.withToken({
                 type: "GET",
-                url: this.url,
+                url: this.url + query,
             })
         );
     }

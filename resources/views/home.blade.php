@@ -4,25 +4,13 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
-
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        {{ __('You are logged in!') }}
-                    </div>
-
-                    <div hidden id="api-token" data-token="{{ $token }}"></div>
-                </div>
-
+                <div hidden id="api-token" data-token="{{ $token }}"></div>
+                <h1>Ваши задачи</h1>
                 <ul id="tasks" class="my-4">
                 </ul>
-
+                <h2>Выполнено</h2>
+                <ul id="tasks-done" class="my-4">
+                </ul>
                 @vite('resources/js/pages/home.js')
             </div>
         </div>

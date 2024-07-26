@@ -104,9 +104,11 @@ class TaskTemplates {
                     <i class="bi bi-caret-right"></i>
                 </button>
                 <input
-                    class="form-check-input me-2"
+                    class="form-check-input me-2 checkbox-done"
                     type="checkbox"
-                    value=""
+                    name="done"
+                    value="${task["done"]}"
+                    ${task["done"] ? "checked" : ""}
                 />
                 <div class="title">${task["title"]}</div>
             </div>

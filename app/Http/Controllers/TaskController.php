@@ -14,7 +14,8 @@ class TaskController extends Controller
     public function index()
     {
         $user = auth()->user();
-        return $user->tasks()->tree()->get()->toTree();
+        $done = request()->query('done', false);
+        return $user->tasks()->where('done', $done)->tree()->get()->toTree();
     }
 
     /**
@@ -51,7 +52,9 @@ class TaskController extends Controller
     {
         if (auth()->user()->id != $task['user_id'])
             return abort(403, 'Unauthorized action.');
-        return $task->update($request->validated());
+        if ($request['done'])
+
+            return $task->update($request->validated());
     }
 
     /**
