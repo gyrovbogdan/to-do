@@ -8,11 +8,18 @@ class DisplayManager {
 
     index(data) {
         this.$container.empty();
-        for (const task of data) {
+        for (const task of data)
             DisplayManager.renderTask(task, this.$container);
-        }
         const $newTask = TaskTemplates.buttonNewTask("");
         this.$container.append($newTask);
+    }
+
+    indexDone(data) {
+        this.$doneContainer.empty();
+        for (const task of data)
+            DisplayManager.renderTask(task, this.$doneContainer);
+        const $newTask = TaskTemplates.buttonNewTask("");
+        this.$doneContainer.append($newTask);
     }
 
     static renderTask(task, $container) {
@@ -20,11 +27,10 @@ class DisplayManager {
         $content.append($(TaskTemplates.task(task)));
 
         const $chilrenList = $(TaskTemplates.sublist(task));
-        if (task["children"]) {
-            for (const taskChildren of task["children"]) {
+        if (task["children"])
+            for (const taskChildren of task["children"])
                 this.renderTask(taskChildren, $chilrenList);
-            }
-        }
+
         $chilrenList.append(TaskTemplates.buttonNewTask(task["id"]));
 
         $content.append($chilrenList);

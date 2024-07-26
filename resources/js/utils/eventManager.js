@@ -2,11 +2,22 @@ import DisplayManager from "./displayManager";
 import TaskTemplates from "./taskTemplates";
 
 class EventManager {
-    constructor(api) {
+    constructor(api, displayManager) {
         this.api = api;
+        this.displayManager = displayManager;
     }
 
-    init() {
+    async init() {
+        const tasks = await this.api.index();
+        this.displayManager.index(tasks);
+
+        const doneTasks = await this.api.index("?done=1");
+        this.displayManager.indexDone(doneTasks);
+
+        this.listeners();
+    }
+
+    listeners() {
         this.openEditFormListeners();
         this.collapseListeners();
         this.deleteListeners();
@@ -29,7 +40,7 @@ class EventManager {
                 eventManager.cancelChangesListeners($buffer);
                 eventManager.submitUpdateListeners();
 
-                eventManager.init();
+                eventManager.listeners();
             });
     }
 
@@ -37,7 +48,7 @@ class EventManager {
         const eventManager = this;
         $(".btn-cancel").one("click", function () {
             $(this).closest("form").replaceWith(buffer);
-            eventManager.init();
+            eventManager.listeners();
         });
     }
 
@@ -53,11 +64,13 @@ class EventManager {
                 title: formData["title"],
                 description: formData["description"],
             })
-                .done(() => {
+                .done((data) => {
+                    console.log(formData);
+                    console.log(data);
                     const taskHtml = TaskTemplates.task(formData);
                     $this.replaceWith(taskHtml);
                     eventManager.submitUpdateListeners();
-                    eventManager.init();
+                    eventManager.listeners();
                 })
                 .fail((error) => console.log(error));
         });
@@ -110,7 +123,7 @@ class EventManager {
 
                 eventManager.cancelChangesListeners(buffer);
                 eventManager.submitCreateListeners();
-                eventManager.init();
+                eventManager.listeners();
             });
     }
 
@@ -122,26 +135,26 @@ class EventManager {
             e.preventDefault();
 
             const $this = $(this);
-
             const formData = DisplayManager.getFormData($this);
 
             api.create(formData).done((task) => {
                 const $taskContainer = $this.closest("li");
                 DisplayManager.renderSubList(task, $taskContainer);
-                eventManager.init();
+                eventManager.listeners();
             });
         });
     }
 
     doneListeners() {
         const api = this.api;
+        const eventManager = this;
         $(".checkbox-done").on("click", function () {
             const $this = $(this);
             const $task = $this.closest(".task");
             const { id } = DisplayManager.getFormData($task);
             const done = Number($this.is(":checked"));
             api.update(id, { done: done });
-            if (done) $task.remove();
+            eventManager.init();
         });
     }
 }

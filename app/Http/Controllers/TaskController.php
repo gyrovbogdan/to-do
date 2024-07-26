@@ -15,6 +15,8 @@ class TaskController extends Controller
     {
         $user = auth()->user();
         $done = request()->query('done', false);
+        if ($done)
+            return $user->tasks()->where('done', $done)->get();
         return $user->tasks()->where('done', $done)->tree()->get()->toTree();
     }
 
@@ -53,8 +55,8 @@ class TaskController extends Controller
         if (auth()->user()->id != $task['user_id'])
             return abort(403, 'Unauthorized action.');
         if ($request['done'])
-
-            return $task->update($request->validated());
+            static::makeDescendanstDone($task);
+        return $task->update($request->validated());
     }
 
     /**
@@ -65,5 +67,10 @@ class TaskController extends Controller
         if (auth()->user()->id != $task['user_id'])
             return abort(403, 'Unauthorized action.');
         return $task->descendantsAndSelf()->delete();
+    }
+
+    private static function makeDescendanstDone(Task $task)
+    {
+        return $task->descendants()->update(['done' => 1]);
     }
 }

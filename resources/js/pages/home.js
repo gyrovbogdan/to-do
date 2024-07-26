@@ -1,17 +1,15 @@
 import Api from "../utils/api";
 import EventManager from "../utils/eventManager";
 import DisplayManager from "../utils/displayManager";
-import AppController from "../utils/appController";
 
 const token = $("#api-token").data("token");
 const url = "/api/tasks";
 const api = new Api(token, url);
 
-const eventManager = new EventManager(api);
-
 const $container = $("#tasks");
-const displayManager = new DisplayManager($container);
+const $doneContainer = $("#tasks-done");
+const displayManager = new DisplayManager($container, $doneContainer);
 
-const appController = new AppController(displayManager, eventManager, api);
+const eventManager = new EventManager(api, displayManager);
 
-$(appController.init());
+$(eventManager.init());
