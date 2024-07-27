@@ -66,8 +66,6 @@ class EventManager {
                 description: formData["description"],
             })
                 .done((data) => {
-                    console.log(formData);
-                    console.log(data);
                     const taskHtml = TaskTemplates.task(formData);
                     $this.replaceWith(taskHtml);
                     eventManager.submitUpdateListeners();
