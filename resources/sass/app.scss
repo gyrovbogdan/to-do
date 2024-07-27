@@ -42,8 +42,24 @@ input[type="checkbox"] {
     .control-buttons {
         display: block !important;
     }
+
+    .btn-collapse {
+        visibility: visible;
+    }
 }
 
 .control-buttons {
     display: none !important;
+}
+
+.btn-collapse {
+    visibility: hidden;
+}
+
+button[aria-expanded="true"] {
+    visibility: visible !important;
+}
+
+.visible {
+    visibility: visible !important;
 }

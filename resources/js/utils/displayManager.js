@@ -86,6 +86,16 @@ class DisplayManager {
         const parentId = task["parent_id"] == null ? "" : task["parent_id"];
         $sublist.append(TaskTemplates.buttonNewTask(parentId));
     }
+
+    collapseButtons() {
+        for (const li of this.$container.find("li")) {
+            const $li = $(li);
+            if ($li.find("ul").length > 1) {
+                const $button = $li.find(".btn-collapse").first();
+                $button.addClass("visible");
+            }
+        }
+    }
 }
 
 export default DisplayManager;

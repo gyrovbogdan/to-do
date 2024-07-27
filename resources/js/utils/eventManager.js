@@ -18,6 +18,7 @@ class EventManager {
     }
 
     listeners() {
+        this.displayManager.collapseButtons();
         this.openEditFormListeners();
         this.collapseListeners();
         this.deleteListeners();

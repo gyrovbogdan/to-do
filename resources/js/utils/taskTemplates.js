@@ -14,13 +14,13 @@ class TaskTemplates {
                 <div class="w-80 ">
                     <div class="d-flex mb-1">
                         <button
-                            class="btn btn-collapse py-0 px-1 ${
+                            class="btn btn-collapse py-0 px-1 btn-collapse ${
                                 task["collapsed"] ? "collapsed" : ""
                             }"
                             type="button"
                             data-bs-toggle="collapse"
                             data-bs-target="#collapse-${task["id"]}"
-                            aria-expanded="false"
+                            aria-expanded="${!Boolean(task["collapsed"])}"
                         >
                             <i class="bi bi-caret-right"></i>
                         </button>
@@ -108,13 +108,13 @@ class TaskTemplates {
                 <div>
                     <div class="d-flex">
                         <button
-                            class="btn btn-collapse py-0 px-1 ${
+                            class="btn btn-collapse py-0 px-1 btn-collapse ${
                                 task["collapsed"] ? "collapsed" : ""
                             }"
                             type="button"
                             data-bs-toggle="collapse"
                             data-bs-target="#collapse-${task["id"]}"
-                            aria-expanded="false"
+                            aria-expanded="${!Boolean(task["collapsed"])}"
                         >
                             <i class="bi bi-caret-right"></i>
                         </button>
