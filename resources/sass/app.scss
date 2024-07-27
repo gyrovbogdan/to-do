@@ -24,3 +24,26 @@ ul.sublist {
 input[type="checkbox"] {
     border-radius: 2rem !important;
 }
+
+.w-80 {
+    width: 80% !important;
+}
+
+.w-20 {
+    width: 20% !important;
+}
+
+.task-input {
+    width: 455px !important;
+    padding: 10px !important;
+}
+
+.task:hover {
+    .control-buttons {
+        display: block !important;
+    }
+}
+
+.control-buttons {
+    display: none !important;
+}

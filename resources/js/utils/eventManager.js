@@ -92,14 +92,14 @@ class EventManager {
 
     deleteListeners() {
         const api = this.api;
+        const eventManager = this;
         $(".btn-delete")
             .off()
             .one("click", function () {
                 const $task = $(this).closest(".task");
                 const { id } = DisplayManager.getFormData($task);
                 api.delete(id).done(() => $task.closest("li").remove());
-                DisplayManager.closeCreateForms();
-                DisplayManager.closeEditForms();
+                eventManager.init();
             });
     }
 

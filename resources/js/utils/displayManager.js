@@ -63,7 +63,7 @@ class DisplayManager {
 
     static getFormData($task) {
         const data = {};
-        for (const input of $task.find("input")) {
+        for (const input of $task.find(".task-input")) {
             const $input = $(input);
             data[$input.attr("name")] = $input.val().trim();
         }
