@@ -133,7 +133,7 @@ class TaskTemplates {
                     </div>
                 </div>
 
-                <div class="control-buttons">
+                <div class="control-btn">
                     <button class="btn btn-update-menu">
                         <i class="bi bi-pencil"></i>
                     </button>

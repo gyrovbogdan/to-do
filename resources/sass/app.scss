@@ -21,8 +21,10 @@ ul.sublist {
     transform: rotate(90deg);
 }
 
-input[type="checkbox"] {
-    border-radius: 2rem !important;
+#tasks {
+    input[type="checkbox"] {
+        border-radius: 2rem !important;
+    }
 }
 
 .w-80 {
@@ -39,8 +41,8 @@ input[type="checkbox"] {
 }
 
 .task:hover {
-    .control-buttons {
-        display: block !important;
+    .control-btn {
+        visibility: visible !important;
     }
 
     .btn-collapse {
@@ -48,8 +50,8 @@ input[type="checkbox"] {
     }
 }
 
-.control-buttons {
-    display: none !important;
+.control-btn {
+    visibility: hidden !important;
 }
 
 .btn-collapse {
@@ -62,24 +64,4 @@ button[aria-expanded="true"] {
 
 .visible {
     visibility: visible !important;
-}
-
-body.dragging,
-body.dragging * {
-    cursor: move !important;
-}
-
-.dragged {
-    position: absolute;
-    opacity: 0.5;
-    z-index: 2000;
-}
-
-ol.example li.placeholder {
-    position: relative;
-    /** More li styles **/
-}
-ol.example li.placeholder:before {
-    position: absolute;
-    /** Define arrowhead **/
 }
