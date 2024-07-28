@@ -108,6 +108,11 @@ class TaskTemplates {
                 <div>
                     <div class="d-flex">
                         <button
+                            class="btn p-0 control-btn move-btn"
+                        >
+                            <i class="bi bi-arrows-move"></i>
+                        </button>
+                        <button
                             class="btn btn-collapse py-0 px-1 btn-collapse ${
                                 task["collapsed"] ? "collapsed" : ""
                             }"

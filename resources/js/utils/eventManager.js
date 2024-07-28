@@ -24,6 +24,7 @@ class EventManager {
         this.deleteListeners();
         this.openCreateFormListeners();
         this.doneListeners();
+        this.sortableListeners();
     }
 
     openEditFormListeners() {
@@ -154,6 +155,30 @@ class EventManager {
             const done = Number($this.is(":checked"));
             api.update(id, { done: done });
             eventManager.init();
+        });
+    }
+
+    sortableListeners() {
+        var oldContainer;
+        $("#tasks").sortable({
+            handle: "i.bi-arrows-move",
+            group: "nested",
+            afterMove: function (placeholder, container) {
+                if (oldContainer != container) {
+                    if (oldContainer) oldContainer.el.removeClass("active");
+                    container.el.addClass("active");
+
+                    oldContainer = container;
+                }
+            },
+            onDrop: function ($item, container, _super) {
+                container.el.removeClass("active");
+                _super($item, container);
+            },
+            onDragStart: function ($item, container, _super) {
+                if (!container.options.drop) $item.clone().insertAfter($item);
+                _super($item, container);
+            },
         });
     }
 }
