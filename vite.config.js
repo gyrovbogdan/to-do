@@ -5,11 +5,17 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                "resources/sass/app.scss",
                 "resources/js/app.js",
+                "resources/sass/app.scss",
                 "resources/js/pages/home.js",
             ],
             refresh: true,
         }),
     ],
+    resolve: {
+        alias: {
+            $: "jquery",
+            jquery: "jquery",
+        },
+    },
 });

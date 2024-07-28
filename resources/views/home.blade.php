@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div hidden id="api-token" data-token="{{ $token }}"></div>
                 <h1>Ваши задачи</h1>
-                <ul id="tasks" class="my-4">
+                <ul id="tasks" class="my-4 sublist">
                 </ul>
                 <h2>Выполнено</h2>
                 <ul id="tasks-done" class="my-4">

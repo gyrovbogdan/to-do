@@ -159,25 +159,19 @@ class EventManager {
     }
 
     sortableListeners() {
-        var oldContainer;
-        $("#tasks").sortable({
+        $("ul.sublist").sortable({
             handle: "i.bi-arrows-move",
             group: "nested",
-            afterMove: function (placeholder, container) {
-                if (oldContainer != container) {
-                    if (oldContainer) oldContainer.el.removeClass("active");
-                    container.el.addClass("active");
-
-                    oldContainer = container;
-                }
+            animation: 200,
+            ghostClass: "ghost",
+            fallbackOnBody: true,
+            swapThreshold: 0.65,
+            onMove: function (evt) {
+                $("ul.sublist").removeClass("active");
+                $(evt.related).parent().addClass("active");
             },
-            onDrop: function ($item, container, _super) {
-                container.el.removeClass("active");
-                _super($item, container);
-            },
-            onDragStart: function ($item, container, _super) {
-                if (!container.options.drop) $item.clone().insertAfter($item);
-                _super($item, container);
+            onEnd: function (evt) {
+                $("ul.sublist").removeClass("active");
             },
         });
     }
