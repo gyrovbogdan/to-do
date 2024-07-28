@@ -43,6 +43,16 @@ class Api {
         );
     }
 
+    replace(data) {
+        return $.ajax(
+            this.withToken({
+                type: "POST",
+                url: `${this.url}/replace`,
+                data: data,
+            })
+        );
+    }
+
     withToken(settings) {
         settings["headers"] = {
             Authorization: "Bearer " + this.token,

@@ -159,6 +159,8 @@ class EventManager {
     }
 
     sortableListeners() {
+        const api = this.api;
+        const displayManager = this.displayManager;
         $("ul.sublist").sortable({
             handle: "i.bi-arrows-move",
             group: "nested",
@@ -172,6 +174,8 @@ class EventManager {
             },
             onEnd: function (evt) {
                 $("ul.sublist").removeClass("active");
+                const tasks = displayManager.serializeTasks();
+                api.replace(tasks);
             },
         });
     }
