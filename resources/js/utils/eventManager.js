@@ -175,6 +175,7 @@ class EventManager {
             onEnd: function (evt) {
                 $("ul.sublist").removeClass("active");
                 const tasks = displayManager.serializeTasks();
+                console.log(tasks);
                 api.replace(tasks);
             },
         });

@@ -48,7 +48,7 @@ class Api {
             this.withToken({
                 type: "POST",
                 url: `${this.url}/replace`,
-                data: data,
+                data: { data: data },
             })
         );
     }

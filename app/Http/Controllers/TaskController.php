@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class TaskController extends Controller
 {
@@ -67,6 +69,19 @@ class TaskController extends Controller
         if (auth()->user()->id != $task['user_id'])
             return abort(403, 'Unauthorized action.');
         return $task->descendantsAndSelf()->delete();
+    }
+
+    public function replace(Request $request)
+    {
+        $tasksData = $request->get('data');
+        foreach ($tasksData as $taskData) {
+            $updateData = Arr::only($taskData, ['title', 'description', 'parent_id']);
+            $task = Task::findOrFail($taskData['id']);
+            if (auth()->user()->id != $task['user_id'])
+                return abort(403, 'Unauthorized action.');
+            $task->update($updateData);
+        }
+        return true;
     }
 
     private static function makeDescendanstDone(Task $task)
