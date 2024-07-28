@@ -96,6 +96,27 @@ class DisplayManager {
             }
         }
     }
+
+    serializeTasks() {
+        const $ul = this.$container;
+        return this.serializeChildren($ul, null);
+    }
+
+    serializeChildren($ul, parentId) {
+        let tasks = [];
+        for (const li of $ul.children()) {
+            const $li = $(li);
+            if ($li.children().first().hasClass("new-sub-item")) continue;
+
+            const data = DisplayManager.getFormData($li.children().first());
+            data["parent_id"] = parentId;
+            tasks.push(data);
+
+            const $ul = $li.find("ul").first();
+            tasks.push(...this.serializeChildren($ul, data["id"]));
+        }
+        return tasks;
+    }
 }
 
 export default DisplayManager;
