@@ -1,6 +1,5 @@
 // Fonts
-@import url("https://fonts.bunny.net/css?family=Nunito");
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Playwrite+AR:wght@100..400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 // Variables
 @import "variables";
@@ -9,68 +8,81 @@
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
+// Font
+* {
+    font-optical-sizing: auto;
+    font-weight: 500 !important;
+    font-style: normal;
+}
+
+// Sublist
 ul.sublist {
     list-style-type: none;
     padding-left: 10px;
     margin-left: 25px;
-}
 
-.btn-collapse:not(.collapsed) {
-    transform: rotate(90deg);
-}
-
-#tasks {
-    input[type="checkbox"] {
-        border-radius: 2rem !important;
+    // Buttons
+    .btn-collapse:not(.collapsed) {
+        transform: rotate(90deg);
     }
-}
 
-.w-80 {
-    width: 80% !important;
-}
-
-.w-20 {
-    width: 20% !important;
-}
-
-.task-input {
-    width: 455px !important;
-    padding: 10px !important;
-}
-
-.task:hover {
     .control-btn {
-        visibility: visible !important;
+        visibility: hidden !important;
     }
 
     .btn-collapse {
-        visibility: visible;
+        visibility: hidden;
     }
-}
 
-.control-btn {
-    visibility: hidden !important;
-}
-
-.btn-collapse {
-    visibility: hidden;
-}
-
-button[aria-expanded="true"] {
-    visibility: visible !important;
-}
-
-.visible {
-    visibility: visible !important;
-}
-
-.move-btn {
-    :hover {
-        cursor: grab;
+    button[aria-expanded="true"] {
+        visibility: visible !important;
     }
-}
 
-li.ghost {
-    border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
-    border-radius: var(--bs-border-radius);
+    .visible {
+        visibility: visible !important;
+    }
+
+    .move-btn {
+        :hover {
+            cursor: grab;
+        }
+    }
+
+    input[type="checkbox"] {
+        border-radius: 2rem !important;
+    }
+
+    .new-sub-item:hover * {
+        color: var(--bs-secondary-text-emphasis);
+    }
+
+    // Task
+    .w-80 {
+        width: 80% !important;
+    }
+
+    .w-20 {
+        width: 20% !important;
+    }
+
+    /* .task-input {
+        width: 455px !important;
+        padding: 10px !important;
+    } */
+
+    .task:hover {
+        .control-btn {
+            visibility: visible !important;
+        }
+
+        .btn-collapse {
+            visibility: visible;
+        }
+    }
+
+    li.ghost {
+        border: var(--bs-border-width) var(--bs-border-style)
+            var(--bs-border-color) !important;
+        border-radius: var(--bs-border-radius);
+    }
 }
