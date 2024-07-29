@@ -19,7 +19,7 @@ class TaskController extends Controller
         $done = request()->query('done', false);
         if ($done)
             return $user->tasks()->where('done', $done)->get();
-        return $user->tasks()->where('done', $done)->tree()->get()->toTree();
+        return $user->tasks()->where('done', $done)->orderBy('order')->tree()->get()->toTree();
     }
 
     /**
@@ -75,7 +75,7 @@ class TaskController extends Controller
     {
         $tasksData = $request->get('data');
         foreach ($tasksData as $taskData) {
-            $updateData = Arr::only($taskData, ['title', 'description', 'parent_id']);
+            $updateData = Arr::only($taskData, ['title', 'description', 'parent_id', 'order']);
             $task = Task::findOrFail($taskData['id']);
             if (auth()->user()->id != $task['user_id'])
                 return abort(403, 'Unauthorized action.');

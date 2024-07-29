@@ -104,17 +104,18 @@ class DisplayManager {
 
     serializeChildren($ul, parentId) {
         let tasks = [];
-        for (const li of $ul.children()) {
+        $ul.children().each((order, li) => {
             const $li = $(li);
-            if ($li.children().first().hasClass("new-sub-item")) continue;
+            if ($li.children().first().hasClass("new-sub-item")) return;
 
             const data = DisplayManager.getFormData($li.children().first());
             data["parent_id"] = parentId;
+            data["order"] = order;
             tasks.push(data);
 
             const $ul = $li.find("ul").first();
             tasks.push(...this.serializeChildren($ul, data["id"]));
-        }
+        });
         return tasks;
     }
 }

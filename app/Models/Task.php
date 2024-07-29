@@ -10,5 +10,13 @@ class Task extends Model
     use \Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
     use HasFactory;
 
-    public $fillable = ['user_id', 'title', 'parent_id', 'description', 'collapsed', 'done'];
+    public $fillable = [
+        'user_id',
+        'title',
+        'parent_id',
+        'description',
+        'collapsed',
+        'done',
+        'order'
+    ];
 }
