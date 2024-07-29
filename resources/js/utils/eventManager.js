@@ -25,6 +25,9 @@ class EventManager {
         this.openCreateFormListeners();
         this.doneListeners();
         this.sortableListeners();
+        this.collapseAllListeners();
+        this.expandAllListeners();
+        this.newTaskButtonListeners();
     }
 
     openEditFormListeners() {
@@ -177,6 +180,42 @@ class EventManager {
                 const tasks = displayManager.serializeTasks();
                 api.replace(tasks);
             },
+        });
+    }
+
+    collapseAllListeners() {
+        $("#collapse-all-btn").on("click", function () {
+            $(".btn-collapse").addClass("collapsed");
+            $("ul.sublist").removeClass("show");
+        });
+    }
+
+    expandAllListeners() {
+        $("#expand-all-btn").on("click", function () {
+            $(".btn-collapse").removeClass("collapsed");
+            $("ul.sublist").addClass("show");
+        });
+    }
+
+    newTaskButtonListeners() {
+        const eventManager = this;
+        const $this = this.displayManager.$container
+            .find(".new-sub-item")
+            .last();
+        $("#new-task-btn").one("click", function () {
+            DisplayManager.closeCreateForms();
+            DisplayManager.closeEditForms();
+
+            const $task = $this.closest("li");
+            const buffer = $task.html();
+            const formData = DisplayManager.getFormData($task);
+
+            const taskHtml = TaskTemplates.formCreate(formData["parent_id"]);
+            $this.replaceWith(taskHtml);
+            $task.find("input[name=title]").last().focus();
+            eventManager.cancelChangesListeners(buffer);
+            eventManager.submitCreateListeners();
+            eventManager.listeners();
         });
     }
 }

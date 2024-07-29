@@ -14,7 +14,7 @@ class TaskTemplates {
                 <div class="w-80 ">
                     <div class="d-flex mb-1">
                         <button
-                            class="btn btn-collapse py-0 px-1 btn-collapse ${
+                            class="btn btn-collapse py-0 px-1 ${
                                 task["collapsed"] ? "collapsed" : ""
                             }"
                             type="button"
@@ -31,7 +31,7 @@ class TaskTemplates {
                             placeholder="Название задачи"
                             name="title"
                             required
-                            autofocus
+                            
                         />
                     </div>
 
@@ -69,7 +69,6 @@ class TaskTemplates {
                         placeholder="Название задачи"
                         name="title"
                         required
-                        autofocus
                     />
 
                     <textarea
@@ -113,7 +112,7 @@ class TaskTemplates {
                             <i class="bi bi-arrows-move"></i>
                         </button>
                         <button
-                            class="btn btn-collapse py-0 px-1 btn-collapse ${
+                            class="btn btn-collapse py-0 px-1 ${
                                 task["collapsed"] ? "collapsed" : ""
                             }"
                             type="button"
