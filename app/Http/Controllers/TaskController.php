@@ -84,6 +84,19 @@ class TaskController extends Controller
         return true;
     }
 
+    public function collapse()
+    {
+        $user = auth()->user();
+        return $user->tasks()->update(['collapsed' => true]);
+    }
+
+    public function expand()
+    {
+        $user = auth()->user();
+        return $user->tasks()->update(['collapsed' => false]);
+    }
+
+
     private static function makeDescendanstDone(Task $task)
     {
         return $task->descendants()->update(['done' => 1]);

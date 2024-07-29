@@ -7,13 +7,13 @@
                 <div hidden id="api-token" data-token="{{ $token }}"></div>
                 <h1>Ваши задачи</h1>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-light" id="new-task-btn">
+                    <button type="button" class="btn btn-outline-dark" id="new-task-btn">
                         <i class="bi bi-journal-plus"></i> Новая задача
                     </button>
-                    <button type="button" class="btn btn-outline-light" id="expand-all-btn">
+                    <button type="button" class="btn btn-outline-dark" id="expand-all-btn">
                         <i class="bi bi-plus-square-fill"></i> Развернуть все
                     </button>
-                    <button type="button" class="btn btn-outline-light" id="collapse-all-btn">
+                    <button type="button" class="btn btn-outline-dark" id="collapse-all-btn">
                         <i class="bi bi-dash-square-fill"></i> Свернуть все
                     </button>
                 </div>

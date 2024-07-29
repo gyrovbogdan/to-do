@@ -53,6 +53,24 @@ class Api {
         );
     }
 
+    collapse() {
+        return $.ajax(
+            this.withToken({
+                type: "POST",
+                url: `${this.url}/collapse`,
+            })
+        );
+    }
+
+    expand() {
+        return $.ajax(
+            this.withToken({
+                type: "POST",
+                url: `${this.url}/expand`,
+            })
+        );
+    }
+
     withToken(settings) {
         settings["headers"] = {
             Authorization: "Bearer " + this.token,

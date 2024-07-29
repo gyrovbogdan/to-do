@@ -171,12 +171,7 @@ class EventManager {
             ghostClass: "ghost",
             fallbackOnBody: true,
             swapThreshold: 0.65,
-            onMove: function (evt) {
-                $("ul.sublist").removeClass("active");
-                $(evt.related).parent().addClass("active");
-            },
             onEnd: function (evt) {
-                $("ul.sublist").removeClass("active");
                 const tasks = displayManager.serializeTasks();
                 api.replace(tasks);
             },
@@ -184,16 +179,20 @@ class EventManager {
     }
 
     collapseAllListeners() {
+        const api = this.api;
         $("#collapse-all-btn").on("click", function () {
             $(".btn-collapse").addClass("collapsed");
             $("ul.sublist").removeClass("show");
+            api.collapse();
         });
     }
 
     expandAllListeners() {
+        const api = this.api;
         $("#expand-all-btn").on("click", function () {
             $(".btn-collapse").removeClass("collapsed");
             $("ul.sublist").addClass("show");
+            api.expand();
         });
     }
 
