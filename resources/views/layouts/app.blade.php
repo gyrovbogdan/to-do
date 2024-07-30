@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"data-bs-theme='dark'>
 
 <head>
     <meta charset="utf-8">
@@ -23,10 +23,10 @@
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md shadow-sm">
+        <nav class="navbar navbar-expand-md shadow-sm border-bottom">
             <div class="container">
                 <a class="navbar-brand fw-bold" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    To<span class="text-primary-emphasis">Do</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -80,7 +80,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="">
             @yield('content')
         </main>
     </div>

@@ -5,23 +5,24 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div hidden id="api-token" data-token="{{ $token }}"></div>
-                <h1>Ваши задачи</h1>
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-dark" id="new-task-btn">
-                        <i class="bi bi-journal-plus"></i> Новая задача
-                    </button>
-                    <button type="button" class="btn btn-outline-dark" id="expand-all-btn">
-                        <i class="bi bi-plus-square-fill"></i> Развернуть все
-                    </button>
-                    <button type="button" class="btn btn-outline-dark" id="collapse-all-btn">
-                        <i class="bi bi-dash-square-fill"></i> Свернуть все
-                    </button>
+                <div class="d-flex justify-content-between flex-column flex-md-row border border-secondary shadow-sm border-top-0 p-3 px-5"
+                    id="temp">
+                    <h1 class="m-0">Задачи</h1>
+                    <div>
+                        <button type="button" class="btn btn-secondary" id="new-task-btn">
+                            <i class="bi bi-file-earmark-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="expand-all-btn">
+                            <i class="bi bi-arrows-expand"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="collapse-all-btn">
+                            <i class="bi bi-arrows-collapse"></i>
+                        </button>
+                    </div>
                 </div>
-                <ul id="tasks" class="my-2 sublist">
+                <ul id="tasks" class="m-2 p-2 sublist">
                 </ul>
-                <h2>Выполнено</h2>
-                <ul id="tasks-done" class="my-4">
-                </ul>
+                <ul></ul>
                 @vite('resources/js/pages/home.js')
             </div>
         </div>

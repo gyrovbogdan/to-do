@@ -2,7 +2,7 @@ class TaskTemplates {
     static formUpdate(task) {
         return `
             <form
-                class="p-2 border-bottom d-flex justify-content-between update-task-form"
+                class="p-2  d-flex justify-content-between update-task-form task"
                 id="form-update"
             >
                 <input class="task-input" name="id" value="${
@@ -11,10 +11,10 @@ class TaskTemplates {
                 <input class="task-input" name="done" value="${
                     task["done"]
                 }" hidden />
-                <div class="w-80 ">
+                <div class="w-80 ps-4">
                     <div class="d-flex mb-1">
                         <button
-                            class="btn btn-collapse py-0 px-1 ${
+                            class="btn btn-dark btn-collapse btn-control py-0 px-1 ${
                                 task["collapsed"] ? "collapsed" : ""
                             }"
                             type="button"
@@ -22,7 +22,9 @@ class TaskTemplates {
                             data-bs-target="#collapse-${task["id"]}"
                             aria-expanded="${!Boolean(task["collapsed"])}"
                         >
-                            <i class="bi bi-caret-right"></i>
+                            <div>
+                                <i class="bi bi-caret-right"></i>
+                            </div>
                         </button>
 
                         <input
@@ -34,21 +36,23 @@ class TaskTemplates {
                             
                         />
                     </div>
-
-                    <textarea
-                        class="form-control ms-4 task-input"
-                        placeholder="Описание..."
-                        name="description"
-                    >${
-                        task["description"] ? task["description"] : ""
-                    }</textarea>
+                    
+                    <div class="ps-4">
+                        <textarea
+                            class="form-control task-input"
+                            placeholder="Описание..."
+                            name="description"
+                        >${
+                            task["description"] ? task["description"] : ""
+                        }</textarea>
+                    </div>
                 </div>
 
                 <div>
-                    <button class="btn btn-cancel" type="button">
+                    <button class="btn btn-dark btn-cancel btn-control" type="button">
                         <i class="bi bi-x-lg"></i>
                     </button>
-                    <button class="btn" type="submit">
+                    <button class="btn btn-dark btn-control" type="submit">
                         <i class="bi bi-check-lg"></i>
                     </button>
                 </div>
@@ -59,11 +63,11 @@ class TaskTemplates {
     static formCreate(parentId) {
         return `
             <form
-                class="p-2 border-bottom d-flex justify-content-between create-task-form"
+                class="p-2 d-flex justify-content-between create-task-form task"
                 id="form-update"
             >
                 <input class="task-input" hidden name="parent_id" value="${parentId}" />
-                <div>
+                <div class="w-80 ps-5">
                     <input
                         class="text-light-emphasis form-control p-0 task-input mb-1"
                         placeholder="Название задачи"
@@ -78,10 +82,10 @@ class TaskTemplates {
                     ></textarea>
                 </div>
                 <div>
-                    <button class="btn btn-cancel" type="button">
+                    <button class="btn btn-dark btn-cancel" type="button">
                         <i class="bi bi-x-lg"></i>
                     </button>
-                    <button class="btn" type="submit">
+                    <button class="btn btn-dark " type="submit">
                         <i class="bi bi-check-lg"></i>
                     </button>
                 </div>
@@ -91,7 +95,7 @@ class TaskTemplates {
 
     static task(task) {
         return `
-            <div class="p-2 border-bottom d-flex justify-content-between task">
+            <div class="p-2  d-flex justify-content-between task">
                 <input class="task-input" hidden name="title" value="${
                     task["title"]
                 }" />
@@ -107,12 +111,12 @@ class TaskTemplates {
                 <div>
                     <div class="d-flex">
                         <button
-                            class="btn p-0 control-btn move-btn"
+                            class="btn btn-dark btn-control btn-move py-0 px-1"
                         >
                             <i class="bi bi-arrows-move"></i>
                         </button>
                         <button
-                            class="btn btn-collapse py-0 px-1 ${
+                            class="btn btn-dark btn-collapse btn-control py-0 px-1 ${
                                 task["collapsed"] ? "collapsed" : ""
                             }"
                             type="button"
@@ -120,7 +124,9 @@ class TaskTemplates {
                             data-bs-target="#collapse-${task["id"]}"
                             aria-expanded="${!Boolean(task["collapsed"])}"
                         >
-                            <i class="bi bi-caret-right"></i>
+                            <div>
+                                <i class="bi bi-caret-right"></i>
+                            </div>
                         </button>
                         <input
                             class="form-check-input me-2 checkbox-done task-input"
@@ -132,16 +138,16 @@ class TaskTemplates {
                         <div class="title">${task["title"]}</div>
                     </div>
 
-                    <div class="ms-4 text-light-emphasis description">
+                    <div class="ms-5 ps-4 text-light-emphasis description">
                         ${task["description"] ? task["description"] : ""}
                     </div>
                 </div>
 
-                <div class="control-btn">
-                    <button class="btn btn-update-menu">
+                <div>
+                    <button class="btn btn-dark btn-update-menu btn-control">
                         <i class="bi bi-pencil"></i>
                     </button>
-                    <button class="btn btn-delete">
+                    <button class="btn btn-dark btn-delete btn-control">
                         <i class="bi bi-trash3"></i>
                     </button>
                 </div>
@@ -153,14 +159,12 @@ class TaskTemplates {
         return `
             <li>
                 <div
-                    class="p-2 border-bottom d-flex justify-content-between task new-sub-item"
+                    class="py-2  d-flex justify-content-between task new-sub-item"
                 >
                     <input class="task-input" hidden name="parent_id" value="${parentId}" />
-                    <div>
-                        <div class="d-flex text-secondary">
-                            <i class="bi bi-plus-lg mx-2"></i>
-                            <div class="title">Новый пункт</div>
-                        </div>
+                    <div class="d-flex text-secondary btn btn-dark">
+                        <i class="bi bi-plus-lg"></i>
+                        <div class="title">Новый пункт</div>
                     </div>
                 </div>
             </li>

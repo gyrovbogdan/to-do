@@ -11,8 +11,8 @@ class EventManager {
         const tasks = await this.api.index();
         this.displayManager.index(tasks);
 
-        const doneTasks = await this.api.index("?done=1");
-        this.displayManager.indexDone(doneTasks);
+        /*  const doneTasks = await this.api.index("?done=1");
+        this.displayManager.indexDone(doneTasks); */
 
         this.listeners();
     }
@@ -72,7 +72,6 @@ class EventManager {
                 .done((data) => {
                     const taskHtml = TaskTemplates.task(formData);
                     $this.replaceWith(taskHtml);
-                    eventManager.submitUpdateListeners();
                     eventManager.listeners();
                 })
                 .fail((error) => console.log(error));
@@ -167,9 +166,10 @@ class EventManager {
         $("ul.sublist").sortable({
             handle: "i.bi-arrows-move",
             group: "nested",
-            animation: 200,
+            animation: 100,
             ghostClass: "ghost",
             fallbackOnBody: true,
+            forceFallback: true,
             swapThreshold: 0.65,
             onEnd: function (evt) {
                 const tasks = displayManager.serializeTasks();
