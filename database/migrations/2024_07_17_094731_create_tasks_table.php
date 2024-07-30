@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('description')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->boolean('collapsed')->default(false);
+            $table->boolean('collapsed')->default(true);
             $table->integer('order')->default(2147483647);
             $table->boolean('done')->default(false);
             $table->timestamps();

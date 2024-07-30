@@ -141,6 +141,7 @@ class EventManager {
 
             api.create(formData).done((task) => {
                 const $taskContainer = $this.closest("li");
+                task["collapsed"] = true;
                 DisplayManager.renderSubList(task, $taskContainer);
                 eventManager.listeners();
             });
