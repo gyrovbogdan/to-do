@@ -171,7 +171,11 @@ class EventManager {
             fallbackOnBody: true,
             forceFallback: true,
             swapThreshold: 0.65,
-            onEnd: function (evt) {
+            onMove: function (evt) {
+                if ($(evt.related).children().first().hasClass("new-sub-item"))
+                    return -1;
+            },
+            onEnd: function () {
                 const tasks = displayManager.serializeTasks();
                 api.replace(tasks);
             },
