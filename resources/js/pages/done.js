@@ -11,4 +11,4 @@ const displayManager = new DisplayManager($container);
 
 const eventManager = new EventManager(api, displayManager);
 
-$(eventManager.init());
+$(eventManager.initDone());
