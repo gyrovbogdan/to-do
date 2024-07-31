@@ -73,17 +73,18 @@ ul.sublist {
         .btn-collapse {
             visibility: hidden;
 
+            &:hover {
+                visibility: visible !important;
+            }
+
             &:not(.collapsed) * {
                 transform: rotate(90deg);
                 transition: transform 200ms;
+                visibility: visible !important;
             }
 
             &.collapsed * {
                 transition: transform 200ms;
-            }
-
-            &[aria-expanded="true"] {
-                visibility: visible !important;
             }
         }
 
@@ -111,7 +112,7 @@ ul.sublist {
     }
 }
 
-#temp {
+#home-header {
     border-radius: 0 0 25px 25px;
     background-color: var(--bs-border-color);
 }

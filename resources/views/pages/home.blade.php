@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div hidden id="api-token" data-token="{{ $token }}"></div>
                 <div class="d-flex justify-content-between flex-column flex-md-row border border-secondary shadow-sm border-top-0 p-3 px-5"
-                    id="temp">
+                    id="home-header">
                     <h1 class="m-0">Задачи</h1>
                     <div>
                         <button type="button" class="btn btn-secondary" id="new-task-btn">
