@@ -5,11 +5,11 @@ class Api {
         this.query = query;
     }
 
-    index(query = "") {
+    index() {
         return $.ajax(
             this.withToken({
                 type: "GET",
-                url: this.url + query,
+                url: this.url + this.query,
             })
         );
     }

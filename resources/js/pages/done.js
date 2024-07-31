@@ -4,7 +4,7 @@ import DisplayManager from "../utils/displayManager";
 
 const token = $("#api-token").data("token");
 const url = "/api/tasks";
-const api = new Api(token, url);
+const api = new Api(token, url, "?done=1");
 
 const $container = $("#tasks");
 const displayManager = new DisplayManager($container);

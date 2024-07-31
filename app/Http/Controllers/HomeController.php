@@ -26,4 +26,10 @@ class HomeController extends Controller
         $token = auth()->user()->createToken('api-token')->plainTextToken;
         return view('pages/home', compact('token'));
     }
+
+    public function done()
+    {
+        $token = auth()->user()->createToken('api-token')->plainTextToken;
+        return view('pages/done', compact('token'));
+    }
 }

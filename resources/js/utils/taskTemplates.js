@@ -135,7 +135,11 @@ class TaskTemplates {
                             value="${task["done"]}"
                             ${Number(task["done"]) ? "checked" : ""}
                         />
-                        <div class="title">${task["title"]}</div>
+                        <div class="title ${
+                            Number(task["done"])
+                                ? "text-decoration-line-through text-muted"
+                                : ""
+                        }">${task["title"]}</div>
                     </div>
 
                     <div class="ms-5 ps-4 text-light-emphasis description">

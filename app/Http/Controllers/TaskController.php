@@ -17,8 +17,6 @@ class TaskController extends Controller
     {
         $user = auth()->user();
         $done = request()->query('done', false);
-        if ($done)
-            return $user->tasks()->where('done', $done)->get();
         return $user->tasks()->where('done', $done)->orderBy('order')->tree()->get()->toTree();
     }
 
@@ -31,9 +29,11 @@ class TaskController extends Controller
         $request['user_id'] = $user->id;
 
         if ($request['parent_id'] != null) {
-            $task = Task::findOrFail($request['parent_id']);
-            if ($user->id != $task['user_id'])
+            $parentTask = Task::findOrFail($request['parent_id']);
+            if ($user->id != $parentTask['user_id'])
                 return abort(403, 'Unauthorized action.');
+            if ($parentTask['done'])
+                return 0;
         }
 
         return Task::create($request->toArray());

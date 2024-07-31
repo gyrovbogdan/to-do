@@ -1,9 +1,8 @@
 import TaskTemplates from "./taskTemplates";
 
 class DisplayManager {
-    constructor($container, $doneContainer) {
+    constructor($container) {
         this.$container = $container;
-        this.$doneContainer = $doneContainer;
     }
 
     index(data) {
@@ -12,14 +11,6 @@ class DisplayManager {
             DisplayManager.renderTask(task, this.$container);
         const $newTask = TaskTemplates.buttonNewTask("");
         this.$container.append($newTask);
-    }
-
-    indexDone(data) {
-        this.$doneContainer.empty();
-        for (const task of data)
-            DisplayManager.renderTask(task, this.$doneContainer);
-        const $newTask = TaskTemplates.buttonNewTask("");
-        this.$doneContainer.append($newTask);
     }
 
     static renderTask(task, $container) {

@@ -10,10 +10,6 @@ class EventManager {
     async init() {
         const tasks = await this.api.index();
         this.displayManager.index(tasks);
-
-        /*  const doneTasks = await this.api.index("?done=1");
-        this.displayManager.indexDone(doneTasks); */
-
         this.listeners();
     }
 
