@@ -56,8 +56,8 @@ class TaskController extends Controller
     {
         if (auth()->user()->id != $task['user_id'])
             return abort(403, 'Unauthorized action.');
-        if ($request['done'])
-            static::makeDescendanstDone($task);
+        if ($request->exists('done'))
+            static::updateDescendants($task, ['done' => $request['done']]);
         return $task->update($request->validated());
     }
 
@@ -97,8 +97,8 @@ class TaskController extends Controller
     }
 
 
-    private static function makeDescendanstDone(Task $task)
+    private static function updateDescendants(Task $task, array $values)
     {
-        return $task->descendants()->update(['done' => 1]);
+        return $task->descendants()->update($values);
     }
 }
