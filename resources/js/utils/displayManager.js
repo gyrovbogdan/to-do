@@ -131,9 +131,12 @@ class DisplayManager {
             const $li = $(li);
             if ($li.children().first().hasClass("new-sub-item")) return;
 
-            const data = DisplayManager.getFormData($li.children().first());
-            data["parent_id"] = parentId;
-            data["order"] = order;
+            const id = $li.find("input[name=id]").first().val();
+            const data = {
+                id: id,
+                parent_id: parentId,
+                order: order,
+            };
             tasks.push(data);
 
             const $ul = $li.find("ul").first();

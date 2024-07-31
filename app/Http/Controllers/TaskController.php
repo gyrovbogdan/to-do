@@ -75,7 +75,7 @@ class TaskController extends Controller
     {
         $tasksData = $request->get('data');
         foreach ($tasksData as $taskData) {
-            $updateData = Arr::only($taskData, ['title', 'description', 'parent_id', 'order']);
+            $updateData = Arr::only($taskData, ['parent_id', 'order']);
             $task = Task::findOrFail($taskData['id']);
             if (auth()->user()->id != $task['user_id'])
                 return abort(403, 'Unauthorized action.');
