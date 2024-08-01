@@ -9,6 +9,9 @@
                     id="home-header">
                     <h1 class="m-0">Задачи</h1>
                     <div>
+                        <button type="button" class="btn btn-secondary" id="show-done-btn">
+                            <i class="bi bi-ui-checks"></i>
+                        </button>
                         <button type="button" class="btn btn-secondary" id="new-task-btn">
                             <i class="bi bi-file-earmark-plus"></i>
                         </button>

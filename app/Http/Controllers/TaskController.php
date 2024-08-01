@@ -16,8 +16,7 @@ class TaskController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $done = request()->query('done', false);
-        return $user->tasks()->where('done', $done)->orderBy('order')->tree()->get()->toTree();
+        return $user->tasks()->orderBy('done')->orderBy('order')->tree()->get()->toTree();
     }
 
     /**

@@ -159,67 +159,6 @@ class TaskTemplates {
         `;
     }
 
-    static taskDone(task) {
-        return `
-            <div class="p-2  d-flex justify-content-between task">
-                <input class="task-input" hidden name="title" value="${
-                    task["title"]
-                }" />
-                <input
-                    class="task-input"
-                    hidden
-                    name="description"
-                    value="${task["description"] ? task["description"] : ""}"
-                />
-                <input class="task-input" hidden name="id" value="${
-                    task["id"]
-                }" />
-                <div>
-                    <div class="d-flex ps-4">
-                        <button
-                            class="btn btn-dark btn-collapse btn-control py-0 px-1 ${
-                                task["collapsed"] ? "collapsed" : ""
-                            }"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#collapse-${task["id"]}"
-                            aria-expanded="${!Boolean(task["collapsed"])}"
-                        >
-                        <div>
-                            <i class="bi bi-caret-right"></i>
-                        </div>
-                        </button>
-                        <input
-                            class="form-check-input me-2 checkbox-done task-input"
-                            type="checkbox"
-                            name="done"
-                            value="${task["done"]}"
-                            ${Number(task["done"]) ? "checked" : ""}
-                        />
-                        <div class="title ${
-                            Number(task["done"])
-                                ? "text-decoration-line-through text-muted"
-                                : ""
-                        }">${task["title"]}</div>
-                    </div>
-
-                    <div class="ms-5 ps-4 text-light-emphasis description">
-                        ${task["description"] ? task["description"] : ""}
-                    </div>
-                </div>
-
-                <div>
-                    <button class="btn btn-dark btn-update-menu btn-control">
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-dark btn-delete btn-control">
-                        <i class="bi bi-trash3"></i>
-                    </button>
-                </div>
-            </div>
-        `;
-    }
-
     static buttonNewTask(parentId) {
         return `
             <li>

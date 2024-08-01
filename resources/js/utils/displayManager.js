@@ -13,12 +13,6 @@ class DisplayManager {
         this.$container.append($newTask);
     }
 
-    indexDone(data) {
-        this.$container.empty();
-        for (const task of data)
-            DisplayManager.renderTaskDone(task, this.$container);
-    }
-
     static renderTask(task, $container) {
         const $content = $(`<li></li>`);
         $content.append($(TaskTemplates.task(task)));
@@ -29,19 +23,6 @@ class DisplayManager {
                 this.renderTask(taskChildren, $chilrenList);
 
         $chilrenList.append(TaskTemplates.buttonNewTask(task["id"]));
-
-        $content.append($chilrenList);
-        $container.append($content);
-    }
-
-    static renderTaskDone(task, $container) {
-        const $content = $(`<li></li>`);
-        $content.append($(TaskTemplates.taskDone(task)));
-
-        const $chilrenList = $(TaskTemplates.sublist(task));
-        if (task["children"])
-            for (const taskChildren of task["children"])
-                this.renderTaskDone(taskChildren, $chilrenList);
 
         $content.append($chilrenList);
         $container.append($content);
@@ -103,19 +84,6 @@ class DisplayManager {
             if ($li.find("ul").length > 1) {
                 const $button = $li.find(".btn-collapse").first();
                 $button.addClass("visible");
-            }
-        }
-    }
-
-    collapseButtonsDone() {
-        for (const li of this.$container.find("li")) {
-            const $li = $(li);
-            const $button = $li.find(".btn-collapse").first();
-            if ($li.find("ul").length > 1) {
-                $button.addClass("visible");
-            } else {
-                $button.hide();
-                $button.next().addClass("ms-4");
             }
         }
     }

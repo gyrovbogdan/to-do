@@ -13,12 +13,6 @@ class EventManager {
         this.listeners();
     }
 
-    async initDone() {
-        const tasks = await this.api.index();
-        this.displayManager.indexDone(tasks);
-        this.listenersDone();
-    }
-
     listeners() {
         this.displayManager.collapseButtons();
         this.openEditFormListeners();
@@ -30,16 +24,6 @@ class EventManager {
         this.collapseAllListeners();
         this.expandAllListeners();
         this.newTaskButtonListeners();
-    }
-
-    listenersDone() {
-        this.displayManager.collapseButtonsDone();
-        this.openEditFormListeners();
-        this.collapseListeners();
-        this.deleteListeners();
-        this.doneListeners();
-        this.collapseAllListeners();
-        this.expandAllListeners();
     }
 
     openEditFormListeners() {

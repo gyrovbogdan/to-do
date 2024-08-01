@@ -14,9 +14,6 @@
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('home') ? 'active' : '' }}" href="{{ route('home') }}">Задачи</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ Route::is('done') ? 'active' : '' }}" href="{{ route('done') }}">Выполнено</a>
-                </li>
             </ul>
 
             <!-- Right Side Of Navbar -->
