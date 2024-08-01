@@ -2,15 +2,23 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Task;
+use App\Services\TaskService;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class StoreTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
+    public function authorize(Request $request): bool
     {
+        if ($request['parent_id'] != null) {
+            $parentTask = Task::findOrFail($request['parent_id']);
+            if (auth()->user()->id != $parentTask['user_id'])
+                return false;
+        }
         return true;
     }
 
@@ -21,10 +29,6 @@ class StoreTaskRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'parent_id' => 'nullable|integer',
-            'title' => 'required|string',
-            'description' => 'nullable|string'
-        ];
+        return TaskService::$storeRules;
     }
 }

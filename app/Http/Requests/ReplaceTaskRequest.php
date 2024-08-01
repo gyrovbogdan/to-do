@@ -2,18 +2,17 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Task;
 use App\Services\TaskService;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTaskRequest extends FormRequest
+class ReplaceTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(Task $task): bool
+    public function authorize(): bool
     {
-        return auth()->user()->id == $task['user_id'];
+        return true;
     }
 
     /**
@@ -23,6 +22,6 @@ class UpdateTaskRequest extends FormRequest
      */
     public function rules(): array
     {
-        return TaskService::$storeRules;
+        return TaskService::$replaceRules;
     }
 }

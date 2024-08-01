@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DestroyTaskRequest;
+use App\Http\Requests\ReplaceTaskRequest;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Requests\ShowDoneRequest;
 use App\Models\Task;
+use App\Services\TaskService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -16,8 +19,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        return $user->tasks()->orderBy('done')->orderBy('order')->tree()->get()->toTree();
+        $tasks = auth()->user()->tasks();
+        return $tasks->orderBy('done')->orderBy('order')
+            ->orderBy('created_at')->tree()->get()->toTree();
     }
 
     /**
@@ -25,28 +29,9 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        $user = auth()->user();
-        $request['user_id'] = $user->id;
-
-        if ($request['parent_id'] != null) {
-            $parentTask = Task::findOrFail($request['parent_id']);
-            if ($user->id != $parentTask['user_id'])
-                return abort(403, 'Unauthorized action.');
-            if ($parentTask['done'])
-                return 0;
-        }
-
-        return Task::create($request->toArray());
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Task $task)
-    {
-        if (auth()->user()->id != $task['user_id'])
-            return abort(403, 'Unauthorized action.');
-        return $task->descendantsAndSelf()->get()->toTree();
+        $task = $request->validated();
+        $task['user_id'] = auth()->user()->id;
+        return Task::create($task);
     }
 
     /**
@@ -54,46 +39,34 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        if (auth()->user()->id != $task['user_id'])
-            return abort(403, 'Unauthorized action.');
         if ($request->exists('done'))
-            static::updateDescendants($task, ['done' => $request['done']]);
-        return $task->update($request->validated());
+            TaskService::updateDescendants($task, ['done' => $request->validated('done')]);
+        $task->update($request->validated());
+        return $task;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(DestroyTaskRequest $request, Task $task)
     {
-        if (auth()->user()->id != $task['user_id'])
-            return abort(403, 'Unauthorized action.');
         return $task->descendantsAndSelf()->delete();
     }
 
-    public function replace(Request $request)
+    public function replace(ReplaceTaskRequest $request)
     {
-        $tasksData = $request->get('data');
-        foreach ($tasksData as $taskData) {
-            $updateData = Arr::only($taskData, ['parent_id', 'order']);
-            $task = Task::findOrFail($taskData['id']);
-            if (auth()->user()->id != $task['user_id'])
-                return abort(403, 'Unauthorized action.');
-            $task->update($updateData);
-        }
-        return true;
+        $tasksData = $request->validated('data');
+        return TaskService::replace($tasksData);
     }
 
     public function collapse()
     {
-        $user = auth()->user();
-        return $user->tasks()->update(['collapsed' => true]);
+        return TaskService::updateCollapsed(true);
     }
 
     public function expand()
     {
-        $user = auth()->user();
-        return $user->tasks()->update(['collapsed' => false]);
+        return TaskService::updateCollapsed(false);
     }
 
     public function getShowDone()
@@ -106,8 +79,5 @@ class TaskController extends Controller
         return auth()->user()->update($request->validated());
     }
 
-    private static function updateDescendants(Task $task, array $values)
-    {
-        return $task->descendants()->update($values);
-    }
+
 }
