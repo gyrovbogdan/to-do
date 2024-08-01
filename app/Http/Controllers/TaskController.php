@@ -39,6 +39,8 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
+        if (auth()->user()->id != $task['user_id'])
+            return abort(403, 'Unauthorized action.');
         if ($request->exists('done'))
             TaskService::updateDescendants($task, ['done' => $request->validated('done')]);
         $task->update($request->validated());
@@ -48,8 +50,10 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DestroyTaskRequest $request, Task $task)
+    public function destroy(Task $task)
     {
+        if (auth()->user()->id != $task['user_id'])
+            return abort(403, 'Unauthorized action.');
         return $task->descendantsAndSelf()->delete();
     }
 

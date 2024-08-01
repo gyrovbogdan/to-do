@@ -13,7 +13,7 @@ class UpdateTaskRequest extends FormRequest
      */
     public function authorize(Task $task): bool
     {
-        return auth()->user()->id == $task['user_id'];
+        return true;
     }
 
     /**
@@ -23,6 +23,6 @@ class UpdateTaskRequest extends FormRequest
      */
     public function rules(): array
     {
-        return TaskService::$storeRules;
+        return TaskService::$updateRules;
     }
 }
