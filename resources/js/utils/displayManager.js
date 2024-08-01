@@ -88,6 +88,16 @@ class DisplayManager {
         }
     }
 
+    showDoneTasks() {
+        const $doneTasks = this.$container
+            .find("input[name=done][value=1]")
+            .closest("li");
+        if (this.showDone) {
+            $("#show-done-btn").prop("checked", true);
+            $doneTasks.show();
+        } else $doneTasks.hide();
+    }
+
     serializeTasks() {
         const $ul = this.$container;
         return this.serializeChildren($ul, null);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\ShowDoneRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -95,6 +96,15 @@ class TaskController extends Controller
         return $user->tasks()->update(['collapsed' => false]);
     }
 
+    public function getShowDone()
+    {
+        return auth()->user()->show_done;
+    }
+
+    public function setShowDone(ShowDoneRequest $request)
+    {
+        return auth()->user()->update($request->validated());
+    }
 
     private static function updateDescendants(Task $task, array $values)
     {

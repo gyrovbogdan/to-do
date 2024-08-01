@@ -71,6 +71,25 @@ class Api {
         );
     }
 
+    getShowDone() {
+        return $.ajax(
+            this.withToken({
+                type: "GET",
+                url: `${this.url}/show-done`,
+            })
+        );
+    }
+
+    setShowDone(value) {
+        return $.ajax(
+            this.withToken({
+                type: "POST",
+                url: `${this.url}/show-done`,
+                data: { show_done: value },
+            })
+        );
+    }
+
     withToken(settings) {
         settings["headers"] = {
             Authorization: "Bearer " + this.token,

@@ -9,21 +9,29 @@ class EventManager {
 
     async init() {
         const tasks = await this.api.index();
+        const showDone = await this.api.getShowDone();
+        this.displayManager.showDone = Number(showDone);
         this.displayManager.index(tasks);
         this.listeners();
     }
 
     listeners() {
+        this.displayManager.showDoneTasks();
         this.displayManager.collapseButtons();
+
         this.openEditFormListeners();
-        this.collapseListeners();
-        this.deleteListeners();
         this.openCreateFormListeners();
+
+        this.deleteListeners();
         this.doneListeners();
+
+        this.collapseListeners();
         this.sortableListeners();
+
         this.collapseAllListeners();
         this.expandAllListeners();
         this.newTaskButtonListeners();
+        this.showDoneButtonListeners();
     }
 
     openEditFormListeners() {
@@ -217,6 +225,19 @@ class EventManager {
             eventManager.submitCreateListeners();
             eventManager.listeners();
         });
+    }
+
+    showDoneButtonListeners() {
+        const api = this.api;
+        const displayManager = this.displayManager;
+        $("#show-done-btn")
+            .off()
+            .on("click", function () {
+                const showDone = !displayManager.showDone;
+                displayManager.showDone = showDone;
+                api.setShowDone(Number(showDone));
+                displayManager.showDoneTasks();
+            });
     }
 }
 

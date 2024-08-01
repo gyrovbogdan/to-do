@@ -9,9 +9,6 @@
                     id="home-header">
                     <h1 class="m-0">Задачи</h1>
                     <div>
-                        <button type="button" class="btn btn-secondary" id="show-done-btn">
-                            <i class="bi bi-ui-checks"></i>
-                        </button>
                         <button type="button" class="btn btn-secondary" id="new-task-btn">
                             <i class="bi bi-file-earmark-plus"></i>
                         </button>
@@ -21,6 +18,22 @@
                         <button type="button" class="btn btn-secondary" id="collapse-all-btn">
                             <i class="bi bi-arrows-collapse"></i>
                         </button>
+                        <div class="dropdown btn p-0">
+                            <button type="button" class="btn btn-secondary" id="settings-btn" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <i class="bi bi-gear"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="px-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="show-done-btn">
+                                        <label class="form-check-label" for="show-done-btn">Отображать
+                                            выполненные</label>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
                     </div>
                 </div>
                 <ul id="tasks" class="m-2 p-2 sublist">
