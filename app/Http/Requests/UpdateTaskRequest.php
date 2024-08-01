@@ -11,9 +11,14 @@ class UpdateTaskRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(Task $task): bool
+    public function authorize(): bool
     {
-        return true;
+        if ($this['parent_id']) {
+            $parentTask = Task::findOrFail($this['parent_id']);
+            if ($this->user()->canManageTask($parentTask))
+                return false;
+        }
+        return $this->user()->canManageTask($this->task);
     }
 
     /**

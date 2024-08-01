@@ -8,9 +8,12 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Requests\ShowDoneRequest;
 use App\Models\Task;
+use App\Models\User;
+use App\Policies\UserPolicy;
 use App\Services\TaskService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -39,10 +42,9 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        if (auth()->user()->id != $task['user_id'])
-            return abort(403, 'Unauthorized action.');
         if ($request->exists('done'))
             TaskService::updateDescendants($task, ['done' => $request->validated('done')]);
+
         $task->update($request->validated());
         return $task;
     }
@@ -50,10 +52,8 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(DestroyTaskRequest $request, Task $task)
     {
-        if (auth()->user()->id != $task['user_id'])
-            return abort(403, 'Unauthorized action.');
         return $task->descendantsAndSelf()->delete();
     }
 

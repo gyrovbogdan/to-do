@@ -22,9 +22,19 @@ class TaskService
     {
         foreach ($tasksData as $taskData) {
             $updateData = Arr::only($taskData, ['parent_id', 'order']);
+
             $task = Task::findOrFail($taskData['id']);
-            if (auth()->user()->id != $task['user_id'])
-                return abort(403, 'Unauthorized action.');
+            $user = auth()->user();
+
+            if ($taskData['parent_id']) {
+                $parentTask = Task::findOrFail($taskData['parent_id']);
+                if (!$user->canManageTask($parentTask))
+                    return abort(403);
+            }
+
+            if (!$user->canManageTask($task))
+                return abort(403);
+
             $task->update($updateData);
         }
     }
