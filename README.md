@@ -1,67 +1,105 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# To-Do App
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Описание проекта
 
-## About Laravel
+To-do list со всеми основными возможностями: создание, редактирование, удаление, создание подзадач и изменение порядка задач.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Установка и настройка
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Требования
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   PHP 8.1
+-   Composer
+-   Node.js & npm
+-   MySQL
 
-## Learning Laravel
+### Установка
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Клонируйте репозиторий:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    ```bash
+    git clone https://github.com/gyrovbogdan/to-do.git
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Перейдите в директорию проекта:
 
-## Laravel Sponsors
+    ```bash
+    cd to-do
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3. Установите зависимости PHP с помощью Composer:
 
-### Premium Partners
+    ```bash
+    composer install
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+4. Установите зависимости JavaScript с помощью npm:
 
-## Contributing
+    ```bash
+    npm install
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5. Скопируйте файл `.env.example` в `.env` и настройте его:
 
-## Code of Conduct
+    ```bash
+    cp .env.example .env
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6. Сгенерируйте ключ приложения:
 
-## Security Vulnerabilities
+    ```bash
+    php artisan key:generate
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+7. Настройте базу данных и выполните миграции:
 
-## License
+    ```bash
+    php artisan migrate
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# to-do
+8. Запустите сервер разработки:
+    ```bash
+    php artisan serve
+    ```
+
+## Использование
+
+После установки и запуска приложения перейдите по адресу `http://localhost:8000` в вашем браузере. Вы сможете увидеть главную страницу приложения, где неавторизованные пользователи увидят стартовые слова, а авторизованные пользователи – свой личный словарь.
+
+## Архитектура и структура проекта
+
+### База данных
+
+![Структура приложения](./to-do-structure.svg)
+
+#### Основные сущности
+
+-   **User** — Пользователь, который имеет личный список дел.
+-   **Task** — Задача, имеет поля для описания: title, description и т.д. Задача поле parent_id, которое указывает на задачу родителя, таким образом образуя дерево задач. Если поле parent_id равно NULL, то значит задача корневая.
+
+### Controllers
+
+#### Api
+
+-   **TaskController** — Контроллер для CRUD операций над задачами.
+-   **HomeController** — Контроллер для отображения домашней страницы
+
+### Jquery Frontend
+
+#### Для реализации всего спектра задач существуют следующие классы:
+
+-   **EventManager** — Менеджер событый, главный класс, который отвечает за обработку событий и связывает между собой Api и DisplayManager.
+-   **DisplayManager** — Meнеджер отображения, этот класс отвечает за создание и отображение задач.
+-   **Api** — Класс, отвечающий за отправку ajax запросов.
+-   **TaskTemplates** — Шаблоны задач, вспомогательный класс, который содержит шаблоны для отображения html кода задач, форм и т.д.
+
+## Технологии
+
+-   Laravel
+-   jQuery
+-   MySQL
+-   Bootstrap
+
+## Контакты
+
+Если у вас есть вопросы или предложения, пожалуйста, свяжитесь со мной по адресу [gyrovbogdan@gmail.com](mailto:gyrovbogdan@gmail.com).
