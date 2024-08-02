@@ -2,9 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DestroyTaskRequest;
+use App\Http\Requests\ReplaceTaskRequest;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\ShowDoneRequest;
 use App\Models\Task;
+use App\Models\User;
+use App\Policies\UserPolicy;
+use App\Services\TaskService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -13,8 +22,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        return $user->tasks()->tree()->get()->toTree();
+        $tasks = auth()->user()->tasks();
+        return $tasks->orderBy('done')->orderBy('order')
+            ->orderBy('created_at')->tree()->get()->toTree();
     }
 
     /**
@@ -22,26 +32,9 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        $user = auth()->user();
-        $request['user_id'] = $user->id;
-
-        if ($request['parent_id'] != null) {
-            $task = Task::findOrFail($request['parent_id']);
-            if ($user->id != $task['user_id'])
-                return abort(403, 'Unauthorized action.');
-        }
-
-        return Task::create($request->toArray());
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Task $task)
-    {
-        if (auth()->user()->id != $task['user_id'])
-            return abort(403, 'Unauthorized action.');
-        return $task->descendantsAndSelf()->get()->toTree();
+        $task = $request->validated();
+        $task['user_id'] = auth()->user()->id;
+        return Task::create($task);
     }
 
     /**
@@ -49,18 +42,46 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        if (auth()->user()->id != $task['user_id'])
-            return abort(403, 'Unauthorized action.');
-        return $task->update($request->validated());
+        if ($request->exists('done'))
+            TaskService::updateDescendants($task, ['done' => $request->validated('done')]);
+
+        $task->update($request->validated());
+        return $task;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(DestroyTaskRequest $request, Task $task)
     {
-        if (auth()->user()->id != $task['user_id'])
-            return abort(403, 'Unauthorized action.');
         return $task->descendantsAndSelf()->delete();
     }
+
+    public function replace(ReplaceTaskRequest $request)
+    {
+        $tasksData = $request->validated('data');
+        return TaskService::replace($tasksData);
+    }
+
+    public function collapse()
+    {
+        return TaskService::updateCollapsed(true);
+    }
+
+    public function expand()
+    {
+        return TaskService::updateCollapsed(false);
+    }
+
+    public function getShowDone()
+    {
+        return auth()->user()->show_done;
+    }
+
+    public function setShowDone(ShowDoneRequest $request)
+    {
+        return auth()->user()->update($request->validated());
+    }
+
+
 }

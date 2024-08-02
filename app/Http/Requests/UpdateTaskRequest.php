@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Task;
+use App\Services\TaskService;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTaskRequest extends FormRequest
@@ -11,7 +13,12 @@ class UpdateTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        if ($this['parent_id']) {
+            $parentTask = Task::findOrFail($this['parent_id']);
+            if ($this->user()->canManageTask($parentTask))
+                return false;
+        }
+        return $this->user()->canManageTask($this->task);
     }
 
     /**
@@ -21,10 +28,6 @@ class UpdateTaskRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'parent_id' => 'nullable|integer',
-            'title' => 'string',
-            'description' => 'nullable|string'
-        ];
+        return TaskService::$updateRules;
     }
 }

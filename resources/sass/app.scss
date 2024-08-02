@@ -1,5 +1,5 @@
 // Fonts
-@import url("https://fonts.bunny.net/css?family=Nunito");
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap");
 
 // Variables
 @import "variables";
@@ -7,3 +7,123 @@
 // Bootstrap
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.css";
+
+// Font
+* {
+    font-optical-sizing: auto;
+    font-weight: 500 !important;
+    letter-spacing: 1px;
+    font-style: normal;
+}
+@media only screen and (max-width: 720px) {
+    #tasks {
+        margin-left: -20px !important;
+    }
+}
+
+@media only screen and (min-width: 720px) {
+    #tasks {
+        margin-left: -40px !important;
+    }
+}
+
+#home-header {
+    border-radius: 0 0 25px 25px;
+    background-color: var(--bs-border-color);
+}
+
+.btn:hover {
+    color: var(--bs-primary-text-emphasis) !important;
+}
+
+// Sublist
+ul.sublist {
+    list-style-type: none;
+    padding-left: 10px;
+    margin-left: 25px;
+
+    li.ghost {
+        border: var(--bs-border-width) var(--bs-border-style)
+            var(--bs-border-color) !important;
+        border-radius: var(--bs-border-radius);
+    }
+
+    .new-sub-item {
+        padding-left: 40px !important;
+        &:hover * {
+            cursor: pointer;
+        }
+
+        &:not(:hover) * {
+            transition: all 200ms;
+        }
+    }
+
+    .task {
+        position: relative;
+        // z-index: 1;
+
+        &:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 1px;
+            margin-left: 50px;
+            width: calc(100% - 50px); /* or 100px */
+            border-bottom: var(--bs-border-width) var(--bs-border-style)
+                var(--bs-border-color) !important;
+        }
+
+        // Buttons
+        &:hover {
+            .btn-control {
+                visibility: visible !important;
+            }
+        }
+
+        .btn-control {
+            visibility: hidden;
+        }
+
+        .btn-collapse {
+            visibility: hidden;
+
+            &:hover {
+                visibility: visible !important;
+            }
+
+            &:not(.collapsed) * {
+                transform: rotate(90deg);
+                transition: transform 200ms;
+                visibility: visible !important;
+            }
+
+            &.collapsed * {
+                transition: transform 200ms;
+            }
+        }
+
+        .visible {
+            visibility: visible !important;
+        }
+
+        .btn-move:hover {
+            cursor: grab;
+        }
+
+        input[type="checkbox"] {
+            border-radius: 2rem !important;
+        }
+
+        // Task
+        .w-80 {
+            width: 80% !important;
+        }
+
+        .task-input[name="title"],
+        .task-input[name="description"] {
+            padding: 5px !important;
+        }
+    }
+}

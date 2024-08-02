@@ -1,14 +1,15 @@
 class Api {
-    constructor(token, url) {
+    constructor(token, url, query = "") {
         this.token = token;
         this.url = url;
+        this.query = query;
     }
 
     index() {
         return $.ajax(
             this.withToken({
                 type: "GET",
-                url: this.url,
+                url: this.url + this.query,
             })
         );
     }
@@ -38,6 +39,53 @@ class Api {
             this.withToken({
                 type: "DELETE",
                 url: `${this.url}/${id}`,
+            })
+        );
+    }
+
+    replace(data) {
+        return $.ajax(
+            this.withToken({
+                type: "POST",
+                url: `${this.url}/replace`,
+                data: { data: data },
+            })
+        );
+    }
+
+    collapse() {
+        return $.ajax(
+            this.withToken({
+                type: "POST",
+                url: `${this.url}/collapse`,
+            })
+        );
+    }
+
+    expand() {
+        return $.ajax(
+            this.withToken({
+                type: "POST",
+                url: `${this.url}/expand`,
+            })
+        );
+    }
+
+    getShowDone() {
+        return $.ajax(
+            this.withToken({
+                type: "GET",
+                url: `${this.url}/show-done`,
+            })
+        );
+    }
+
+    setShowDone(value) {
+        return $.ajax(
+            this.withToken({
+                type: "POST",
+                url: `${this.url}/show-done`,
+                data: { show_done: value },
             })
         );
     }
