@@ -8,6 +8,7 @@ class EventManager {
     }
 
     async init() {
+        window.isTouch = "ontouchstart" in document.documentElement;
         const tasks = await this.api.index();
         const showDone = await this.api.getShowDone();
         this.displayManager.showDone = Number(showDone);

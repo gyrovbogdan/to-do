@@ -15,9 +15,25 @@
     letter-spacing: 1px;
     font-style: normal;
 }
+@media only screen and (max-width: 720px) {
+    #tasks {
+        margin-left: -20px !important;
+    }
+}
 
-#tasks {
-    margin-left: -40px !important;
+@media only screen and (min-width: 720px) {
+    #tasks {
+        margin-left: -40px !important;
+    }
+}
+
+#home-header {
+    border-radius: 0 0 25px 25px;
+    background-color: var(--bs-border-color);
+}
+
+.btn:hover {
+    color: var(--bs-primary-text-emphasis) !important;
 }
 
 // Sublist
@@ -45,7 +61,7 @@ ul.sublist {
 
     .task {
         position: relative;
-        z-index: 1;
+        // z-index: 1;
 
         &:before {
             content: "";
@@ -110,13 +126,4 @@ ul.sublist {
             padding: 5px !important;
         }
     }
-}
-
-#home-header {
-    border-radius: 0 0 25px 25px;
-    background-color: var(--bs-border-color);
-}
-
-.btn:hover {
-    color: var(--bs-primary-text-emphasis) !important;
 }

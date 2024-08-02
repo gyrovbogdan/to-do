@@ -11,7 +11,7 @@ class TaskTemplates {
                 <input class="task-input" name="done" value="${
                     task["done"]
                 }" hidden />
-                <div class="w-80 ps-4">
+                <div class="ps-4 w-100">
                     <div class="d-flex mb-1">
                         <button
                             class="btn btn-dark btn-collapse btn-control py-0 px-1 ${
@@ -38,23 +38,27 @@ class TaskTemplates {
                     </div>
                     
                     <div class="ps-4">
-                        <textarea
-                            class="form-control task-input"
+                        <input
+                            class="text-light-emphasis form-control task-input"
                             placeholder="Описание..."
                             name="description"
-                        >${
-                            task["description"] ? task["description"] : ""
-                        }</textarea>
+                            value="${
+                                task["description"] ? task["description"] : ""
+                            }"></input>
                     </div>
                 </div>
 
-                <div>
-                    <button class="btn btn-dark btn-cancel btn-control" type="button">
-                        <i class="bi bi-x-lg"></i>
-                    </button>
-                    <button class="btn btn-dark btn-control" type="submit">
-                        <i class="bi bi-check-lg"></i>
-                    </button>
+                <div class="d-flex flex-column flex-sm-row">
+                    <div>
+                        <button class="btn btn-dark btn-cancel" type="button">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="btn btn-dark" type="submit">
+                            <i class="bi bi-check-lg"></i>
+                        </button>
+                    </div>
                 </div>
             </form>
         `;
@@ -67,27 +71,30 @@ class TaskTemplates {
                 id="form-update"
             >
                 <input class="task-input" hidden name="parent_id" value="${parentId}" />
-                <div class="w-80 ps-5">
+                <div class="w-100 ps-5">
                     <input
                         class="text-light-emphasis form-control p-0 task-input mb-1"
                         placeholder="Название задачи"
                         name="title"
                         required
                     />
-
-                    <textarea
-                        class="form-control task-input"
-                        placeholder="Описание..."
-                        name="description"
-                    ></textarea>
+                    <input
+                            class="text-light-emphasis form-control task-input"
+                            placeholder="Описание..."
+                            name="description">
+                    </input>
                 </div>
-                <div>
-                    <button class="btn btn-dark btn-cancel" type="button">
-                        <i class="bi bi-x-lg"></i>
-                    </button>
-                    <button class="btn btn-dark " type="submit">
-                        <i class="bi bi-check-lg"></i>
-                    </button>
+                <div class="d-flex flex-column flex-sm-row">
+                    <div>    
+                        <button class="btn btn-dark btn-cancel" type="button">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="btn btn-dark " type="submit">
+                            <i class="bi bi-check-lg"></i>
+                        </button>
+                    </div>
                 </div>
             </form>
         `;
@@ -108,26 +115,30 @@ class TaskTemplates {
                 <input class="task-input" hidden name="id" value="${
                     task["id"]
                 }" />
-                <div>
+                <div class="w-100">
                     <div class="d-flex">
-                        <button
-                            class="btn btn-dark btn-control btn-move py-0 px-1"
-                        >
-                            <i class="bi bi-arrows-move"></i>
-                        </button>
-                        <button
-                            class="btn btn-dark btn-collapse btn-control py-0 px-1 ${
-                                task["collapsed"] ? "collapsed" : ""
-                            }"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#collapse-${task["id"]}"
-                            aria-expanded="${!Boolean(task["collapsed"])}"
-                        >
+                        <div>
+                            <button
+                                class="btn btn-dark btn-control btn-move py-0 px-1"
+                            >
+                                <i class="bi bi-arrows-move"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                class="btn btn-dark btn-collapse btn-control py-0 px-1 ${
+                                    task["collapsed"] ? "collapsed" : ""
+                                }"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collapse-${task["id"]}"
+                                aria-expanded="${!Boolean(task["collapsed"])}"
+                            >
                             <div>
                                 <i class="bi bi-caret-right"></i>
                             </div>
-                        </button>
+                            </button>
+                        </div>
                         <input
                             class="form-check-input me-2 checkbox-done task-input"
                             type="checkbox"
@@ -135,27 +146,60 @@ class TaskTemplates {
                             value="${task["done"]}"
                             ${Number(task["done"]) ? "checked" : ""}
                         />
-                        <div class="title ${
+                        <div class="title text-break ${
                             Number(task["done"])
                                 ? "text-decoration-line-through text-muted"
                                 : ""
                         }">${task["title"]}</div>
                     </div>
 
-                    <div class="ms-5 ps-4 text-light-emphasis description">
+                    <div class="ms-5 ps-4 text-light-emphasis description text-break">
                         ${task["description"] ? task["description"] : ""}
                     </div>
                 </div>
 
-                <div>
-                    <button class="btn btn-dark btn-update-menu btn-control">
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <button class="btn btn-dark btn-delete btn-control">
-                        <i class="bi bi-trash3"></i>
-                    </button>
+                <div class="d-flex flex-column flex-sm-row">
+                    ${isTouch ? this.buttonsTouch() : this.buttonsNoTouch()}
                 </div>
             </div>
+        `;
+    }
+
+    static buttonsNoTouch() {
+        return `
+            <div>
+                <button class="btn btn-dark btn-update-menu btn-control">
+                    <i class="bi bi-pencil"></i>
+                </button>
+            </div>
+            <div>
+                <button class="btn btn-dark btn-delete btn-control">
+                    <i class="bi bi-trash3"></i>
+                </button>
+            </div>
+        `;
+    }
+
+    static buttonsTouch() {
+        return `
+        <div class="dropdown btn p-0">
+            <button type="button" class="btn" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="bi bi-three-dots-vertical"></i>
+            </button>
+            <ul class="dropdown-menu z-3">
+                <li >
+                    <button class="btn btn-dark btn-update-menu btn-control">
+                        <i class="bi bi-pencil"></i>  Изменить
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-dark btn-delete btn-control">
+                        <i class="bi bi-trash3"></i>  Удалить
+                    </button>
+                </li>
+            </ul>
+        </div>
         `;
     }
 
