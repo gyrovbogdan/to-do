@@ -49,8 +49,9 @@ class EventManager {
                 DisplayManager.renderUpdateForm($task);
                 eventManager.cancelChangesListeners($buffer);
                 eventManager.submitUpdateListeners();
-
                 eventManager.listeners();
+
+                $("#form-update").find("input[name=title]").trigger("focus");
             });
     }
 
@@ -131,6 +132,8 @@ class EventManager {
                 eventManager.cancelChangesListeners(buffer);
                 eventManager.submitCreateListeners();
                 eventManager.listeners();
+
+                $("#form-update").find("input[name=title]").trigger("focus");
             });
     }
 
@@ -208,24 +211,31 @@ class EventManager {
 
     newTaskButtonListeners() {
         const eventManager = this;
-        const $this = this.displayManager.$container
-            .find(".new-sub-item")
-            .last();
-        $("#new-task-btn").one("click", function () {
-            DisplayManager.closeCreateForms();
-            DisplayManager.closeEditForms();
+        const displayManager = this.displayManager;
+        $("#new-task-btn")
+            .off()
+            .one("click", function () {
+                DisplayManager.closeCreateForms();
+                DisplayManager.closeEditForms();
 
-            const $task = $this.closest("li");
-            const buffer = $task.html();
-            const formData = DisplayManager.getFormData($task);
+                const $this = displayManager.$container
+                    .find(".new-sub-item")
+                    .last();
+                const $task = $this.closest("li");
+                const buffer = $task.html();
+                const formData = DisplayManager.getFormData($task);
 
-            const taskHtml = TaskTemplates.formCreate(formData["parent_id"]);
-            $this.replaceWith(taskHtml);
-            $task.find("input[name=title]").last().focus();
-            eventManager.cancelChangesListeners(buffer);
-            eventManager.submitCreateListeners();
-            eventManager.listeners();
-        });
+                const taskHtml = TaskTemplates.formCreate(
+                    formData["parent_id"]
+                );
+                $this.replaceWith(taskHtml);
+
+                eventManager.cancelChangesListeners(buffer);
+                eventManager.submitCreateListeners();
+                eventManager.listeners();
+
+                $("#form-update").find("input[name=title]").trigger("focus");
+            });
     }
 
     showDoneButtonListeners() {
