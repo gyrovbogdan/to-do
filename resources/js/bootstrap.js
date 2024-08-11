@@ -1,5 +1,12 @@
 import "bootstrap";
 
+import jQuery from "jquery";
+import Sortable from "sortablejs";
+
+window.$ = jQuery;
+window.jQuery = jQuery;
+window.Sortable = Sortable;
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
