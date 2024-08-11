@@ -15,6 +15,40 @@ To-do list со всеми основными возможностями: соз
 
 ### Установка
 
+> Если вы хотите использовать **Docker Compose**:
+>
+> 1.  Клонируйте репозиторий:
+>
+> ```bash
+> git clone https://github.com/gyrovbogdan/to-do.git
+> ```
+>
+> 2.  Перейдите в директорию проекта:
+>
+> ```bash
+> cd to-do
+> ```
+>
+> 3. Запустите контейнеры:
+>
+> ```bash
+>    docker-compose up -d
+> ```
+>
+> 4. Скопируйте файл `.env.example` в `.env`:
+>
+> ```bash
+>   cp .env.example .env
+> ```
+>
+> 5. Установите зависимости, и настройте Laravel с помощью скрипта run.sh:
+>
+> ```bash
+>   docker exec my_dict_app bash ./to-do/docker/run.sh
+> ```
+>
+> Сайт будет доступен по адресу `http://localhost:8080`
+
 1. Клонируйте репозиторий:
 
     ```bash
