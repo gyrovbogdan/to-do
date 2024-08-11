@@ -8,7 +8,7 @@ To-do list со всеми основными возможностями: соз
 
 ### Требования
 
--   PHP 8.1
+-   PHP 8.2
 -   Composer
 -   Node.js & npm
 -   MySQL
