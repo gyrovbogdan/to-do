@@ -164,8 +164,7 @@ class EventManager {
             const $task = $this.closest(".task");
             const { id } = DisplayManager.getFormData($task);
             const done = Number($this.is(":checked"));
-            api.update(id, { done: done });
-            eventManager.init();
+            api.update(id, { done: done }).then(() => eventManager.init());
         });
     }
 
